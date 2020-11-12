@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package demo_user;
+
+service UserSvc {
+    rpc register (RegisterRequest) returns (UserResponse);
+    rpc login (LoginRequest) returns (UserResponse);
+    rpc verify (VerifyRequest) returns (VerifyResponse);
+}
+
+message VerifyRequest {
+    string token = 2;
+}
+
+message LoginRequest {
+    string email = 2;
+    string password = 3;
+}
+
+message RegisterRequest {
+    string name = 1;
+    string email = 2;
+    string password = 3;
+}
+
+message UserResponse {
+    string id = 1;
+    string name = 2;
+    string email = 3;
+    string token = 4;
+}
+
+message VerifyResponse {
+    string id = 1;
+    string name = 2;
+    string email = 3;
+}

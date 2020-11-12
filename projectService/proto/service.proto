@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package demo_project;
+
+service ProjectSvc {
+    rpc createProject (CreateProjectRequest) returns (ProjectResponse);
+    rpc createTag (CreateTagRequest) returns (TagResponse);
+}
