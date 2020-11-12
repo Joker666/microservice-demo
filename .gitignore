@@ -4,3 +4,6 @@ userService/.idea
 userService/node_modules
 
 projectService/.idea
+
+apiService/vendor
+apiService/.idea
