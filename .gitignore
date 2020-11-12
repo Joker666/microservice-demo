@@ -1,2 +1,6 @@
+.vscode
+
 userService/.idea
 userService/node_modules
+
+projectService/.idea

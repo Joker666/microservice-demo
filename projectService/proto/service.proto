@@ -6,3 +6,25 @@ service ProjectSvc {
     rpc createProject (CreateProjectRequest) returns (ProjectResponse);
     rpc createTag (CreateTagRequest) returns (TagResponse);
 }
+
+message CreateProjectRequest {
+    string user_id = 1;
+    string name = 2;
+}
+
+message CreateTagRequest {
+    string user_id = 1;
+    string name = 2;
+    string project_id = 3;
+}
+
+message ProjectResponse {
+    string id = 1;
+    string name = 2;
+}
+
+message TagResponse {
+    string id = 1;
+    string name = 2;
+    string project_id = 3;
+}
