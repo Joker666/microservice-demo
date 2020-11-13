@@ -4,6 +4,7 @@ userService/.idea
 userService/node_modules
 
 projectService/.idea
+projectService/__pycache__
 
 apiService/vendor
 apiService/.idea

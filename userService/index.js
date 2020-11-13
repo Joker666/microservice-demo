@@ -1,17 +1,10 @@
-const PROTO_PATH = __dirname + '/../protos/user/service.proto';
 require('dotenv').config();
 const grpc = require('@grpc/grpc-js');
-const protoLoader = require('@grpc/proto-loader');
 const { MongoClient } = require("mongodb");
 const bcrypt = require('bcrypt');
 const auth = require("./auth");
-
-// Proto config
-const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
-    keepCase: true, longs: String, enums: String, defaults: true, oneofs: true
-});
-
-const userProto = grpc.loadPackageDefinition(packageDefinition).demo_user;
+const messages = require('./proto/service_pb');
+const services = require('./proto/service_grpc_pb');
 
 // Mongo Connection
 const dbClient = new MongoClient(process.env.DB_URI, { useUnifiedTopology: true });
@@ -34,39 +27,51 @@ async function connectDB() {
 function register(call, callback) {
     const users = db.collection("users");
 
-    bcrypt.hash(call.request.password, 10, (err, hash) => {
-        let user = { name: call.request.name, email: call.request.email, password: hash }
+    bcrypt.hash(call.request.getPassword(), 10, (err, hash) => {
+        let user = { name: call.request.getName(), email: call.request.getEmail(), password: hash }
         users.insertOne(user).then(r => {
-            callback(null, {id: user._id, name: user.name, email: user.email, token: auth.generateToken(user)});
+            let resp = new messages.UserResponse();
+            resp.setId(user._id);
+            resp.setName(user.name);
+            resp.setEmail(user.email);
+            resp.setToken(auth.generateToken(user));
+            callback(null, resp);
         });
     });
 }
 
 function login(call, callback) {
     const users = db.collection("users");
-
-    users.findOne({ email: call.request.email }).then(user => {
-        bcrypt.compare(call.request.password, user.password, (err, result) => {
+    users.findOne({ email: call.request.getEmail() }).then(user => {
+        bcrypt.compare(call.request.getPassword(), user.password, (err, result) => {
             if (result) {
-                callback(null, {id: user._id, name: user.name, email: user.email, token: auth.generateToken(user)});
+                let resp = new messages.UserResponse();
+                resp.setId(user._id);
+                resp.setName(user.name);
+                resp.setEmail(user.email);
+                resp.setToken(auth.generateToken(user));
+                callback(null, resp);
             }
         });
     });
 }
 
 function verify(call, callback) {
-    auth.verify(call.request.token, (usr) => {
+    auth.verify(call.request.getToken(), (usr) => {
         const users = db.collection("users");
         users.findOne({ email: usr.email }).then(user => {
-            console.log(user);
-            callback(null, {id: user._id, name: user.name, email: user.email});
+            let resp = new messages.VerifyResponse();
+            resp.setId(user._id);
+            resp.setName(user.name);
+            resp.setEmail(user.email);
+            callback(null, resp);
         })
     })
 }
 
 function main() {
     let server = new grpc.Server();
-    server.addService(userProto.UserSvc.service, {
+    server.addService(services.UserSvcService, {
         register: register,
         login: login,
         verify: verify,

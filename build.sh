@@ -2,9 +2,20 @@
 
 set -e
 
-python -m grpc_tools.protoc --proto_path=./protos/project \
-        --python_out=./projectService/proto \
-        --grpc_python_out=./projectService/proto ./protos/project/*.proto
+grpc_tools_node_protoc \
+    --js_out=import_style=commonjs,binary:userService/proto/ \
+    --grpc_out=grpc_js:userService/proto \
+    --proto_path=./protos/user ./protos/user/*.proto
+
+python -m grpc_tools.protoc \
+    --python_out=./projectService/proto \
+    --grpc_python_out=./projectService/proto \
+    --proto_path=./protos/project ./protos/project/*.proto
+
+
+pushd projectService/proto
+sed -i -E 's/^import.*_pb2/from . \0/' *.py
+popd
 
 
 packs=(
