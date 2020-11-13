@@ -33,6 +33,12 @@ if [ -n "$(git diff --shortstat 2> /dev/null | tail -n1)" ]; then
     VERSION="${VERSION}-dirty"
 fi
 
+protoc -I . -I$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
+     --grpc-gateway_out . \
+     --grpc-gateway_opt logtostderr=true \
+     --grpc-gateway_opt paths=source_relative \
+     proto/api.proto
+
 export GO111MODULE=on
 
 go mod verify
