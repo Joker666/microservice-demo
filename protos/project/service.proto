@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package demo_project;
 
-option go_package = "github.com/Joker666/microservice-demo/projectService/proto";
+option go_package = "github.com/Joker666/microservice-demo/protos/project";
 
 service ProjectSvc {
     rpc createProject (CreateProjectRequest) returns (ProjectResponse);

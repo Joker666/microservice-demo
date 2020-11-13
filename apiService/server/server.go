@@ -2,7 +2,7 @@ package server
 
 import (
 	"context"
-	pb "github.com/Joker666/microservice-demo/apiService/proto"
+	pb "github.com/Joker666/microservice-demo/protos/api"
 )
 
 type Server struct {

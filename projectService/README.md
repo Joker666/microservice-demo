@@ -1,9 +1,3 @@
-## Generate proto
-
-```
-python -m grpc_tools.protoc --proto_path=./proto/ --python_out=./proto/ --grpc_python_out=./proto/ ./proto/*.proto
-```
-
 ## Fix import
 
 https://github.com/protocolbuffers/protobuf/issues/1491

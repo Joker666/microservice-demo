@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	gw "github.com/Joker666/microservice-demo/apiService/proto"
+	gw "github.com/Joker666/microservice-demo/protos/api"
 	"github.com/joho/godotenv"
 	"log"
 	"os"
