@@ -1,4 +1,4 @@
-const PROTO_PATH = __dirname + '/proto/service.proto';
+const PROTO_PATH = __dirname + '/../protos/user/service.proto';
 require('dotenv').config();
 const grpc = require('@grpc/grpc-js');
 const protoLoader = require('@grpc/proto-loader');

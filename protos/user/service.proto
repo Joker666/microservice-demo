@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package demo_user;
 
-option go_package = "github.com/Joker666/microservice-demo/userService/proto";
+option go_package = "github.com/Joker666/microservice-demo/protos/user";
 
 service UserSvc {
     rpc register (RegisterRequest) returns (UserResponse);
