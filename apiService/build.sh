@@ -3,7 +3,7 @@
 set -e
 
 PROJ="apiService"
-ORG_PATH="github.com/microservice-demo"
+ORG_PATH="github.com/Joker666/microservice-demo"
 REPO_PATH="${ORG_PATH}/${PROJ}"
 
 if ! [ -x "$(command -v go)" ]; then

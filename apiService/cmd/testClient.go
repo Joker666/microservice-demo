@@ -1,16 +1,17 @@
 package cmd
 
 import (
-	pb "apiService/proto"
 	"context"
-	"github.com/spf13/cobra"
-	"google.golang.org/grpc"
 	"log"
 	"os"
 	"time"
+
+	pb "github.com/Joker666/microservice-demo/apiService/proto"
+	"github.com/spf13/cobra"
+	"google.golang.org/grpc"
 )
 
-// srvCmd is the serve sub command to start the api server
+// testCmd is the serve sub command to start the api server
 var testCmd = &cobra.Command{
 	Use:   "testClient",
 	Short: "testClient tests the api server",

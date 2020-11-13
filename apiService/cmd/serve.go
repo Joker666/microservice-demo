@@ -1,15 +1,17 @@
 package cmd
 
 import (
-	pb "apiService/proto"
 	"context"
+
+	pb "github.com/Joker666/microservice-demo/apiService/proto"
+
+	"log"
+	"net"
+	"os"
 
 	"github.com/joho/godotenv"
 	"github.com/spf13/cobra"
 	"google.golang.org/grpc"
-	"log"
-	"net"
-	"os"
 )
 
 type server struct {
@@ -46,6 +48,8 @@ func serve(cmd *cobra.Command, args []string) error {
 	}
 	s := grpc.NewServer()
 	pb.RegisterGreeterServer(s, &server{})
+
+	log.Println("Starting GRPC server at: " + port)
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}

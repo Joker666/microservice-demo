@@ -17,6 +17,7 @@ var rootCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(srvCmd)
 	rootCmd.AddCommand(testCmd)
+	rootCmd.AddCommand(proxyCmd)
 }
 
 // Execute executes the command
