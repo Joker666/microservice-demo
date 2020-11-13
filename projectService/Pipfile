@@ -7,6 +7,8 @@ name = "pypi"
 grpcio = "*"
 grpcio-tools = "*"
 python-dotenv = "*"
+sqlalchemy = "*"
+mysqlclient = "*"
 
 [dev-packages]
 

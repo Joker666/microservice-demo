@@ -9,6 +9,7 @@ def run():
     with grpc.insecure_channel('localhost:50052') as channel:
         stub = service.ProjectSvcStub(channel)
         response = stub.createProject(message.CreateProjectRequest(user_id="1", name="Hello"))
+        # response = stub.createTag(message.CreateTagRequest(user_id="1", name="HelloTagg", project_id="1"))
     print("Greeter client received: " + response.name)
 
 

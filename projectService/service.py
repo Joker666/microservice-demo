@@ -1,19 +1,32 @@
-from concurrent import futures
-from dotenv import load_dotenv
 import logging
-import grpc
-import api
 import os
+from concurrent import futures
 
+import grpc
+from dotenv import load_dotenv
+from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+
+import api
+import model
 import proto.service_pb2_grpc as service
 
 load_dotenv(verbose=True)
+
+engine = create_engine('mysql+mysqldb://root:zOJSvEEFc5@127.0.0.1:3306/microservice-project', echo=False)
+conn = engine.connect()
+Session = sessionmaker(bind=engine)
+session = Session()
+Base = declarative_base()
 
 
 def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     address = os.getenv("HOST") + ":" + os.getenv("PORT")
     server.add_insecure_port(address)
+
+    model.create_tables()
 
     service.add_ProjectSvcServicer_to_server(api.API(), server)
 
