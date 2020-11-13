@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package demo_api;
 
-option go_package = "github.com/Joker666/microservice-demo/apiService/proto";
+option go_package = "github.com/Joker666/microservice-demo/protos/api";
 
 import "google/api/annotations.proto";
 
