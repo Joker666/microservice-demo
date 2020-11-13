@@ -17,9 +17,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='service.proto',
   package='demo_project',
   syntax='proto3',
-  serialized_options=b'Z:github.com/Joker666/microservice-demo/projectService/proto',
+  serialized_options=b'Z4github.com/Joker666/microservice-demo/protos/project',
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\rservice.proto\x12\x0c\x64\x65mo_project\"5\n\x14\x43reateProjectRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\"E\n\x10\x43reateTagRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x12\n\nproject_id\x18\x03 \x01(\t\"+\n\x0fProjectResponse\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\";\n\x0bTagResponse\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x12\n\nproject_id\x18\x03 \x01(\t2\xa8\x01\n\nProjectSvc\x12R\n\rcreateProject\x12\".demo_project.CreateProjectRequest\x1a\x1d.demo_project.ProjectResponse\x12\x46\n\tcreateTag\x12\x1e.demo_project.CreateTagRequest\x1a\x19.demo_project.TagResponseB<Z:github.com/Joker666/microservice-demo/projectService/protob\x06proto3'
+  serialized_pb=b'\n\rservice.proto\x12\x0c\x64\x65mo_project\"5\n\x14\x43reateProjectRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\"E\n\x10\x43reateTagRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x12\n\nproject_id\x18\x03 \x01(\t\"+\n\x0fProjectResponse\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\";\n\x0bTagResponse\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x12\n\nproject_id\x18\x03 \x01(\t2\xa8\x01\n\nProjectSvc\x12R\n\rcreateProject\x12\".demo_project.CreateProjectRequest\x1a\x1d.demo_project.ProjectResponse\x12\x46\n\tcreateTag\x12\x1e.demo_project.CreateTagRequest\x1a\x19.demo_project.TagResponseB6Z4github.com/Joker666/microservice-demo/protos/projectb\x06proto3'
 )
 
 
