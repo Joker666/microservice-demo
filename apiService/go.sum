@@ -36,6 +36,10 @@ github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03
 github.com/BurntSushi/xgb v0.0.0-20160522181843-27f122750802/go.mod h1:IVnqGOEym/WlBOVXweHU+Q+/VP0lqqI8lqeDx9IjBqo=
 github.com/Joker666/microservice-demo v0.0.0-20201113074301-75b269a597b1 h1:vpaQmlPp1ttuRWeghRqUu6ZzzfXq/dlsRzZBA/ZW/j0=
 github.com/Joker666/microservice-demo v0.0.0-20201113082625-eba10b335986 h1:LuyIupntQakJIwOKTWNo2eOmVdiC7vwmkprInSDfCy0=
+github.com/Joker666/microservice-demo v0.0.0-20201113113518-7f0c3768c025 h1:HXoWdaGbhFP4+ZkEJ72a22PgTb/r3tarpTSUruKA2hc=
+github.com/Joker666/microservice-demo v0.0.0-20201113122245-32a2db0aa7e9 h1:AbU7SmiD76FJqkQhy+uOBGqGQK67wjnN00xkw1dmvAE=
+github.com/Joker666/microservice-demo/protos v0.0.0-20201113122245-32a2db0aa7e9 h1:A41oMr7SdRGZr1vqVDFIYNrMdckq2UzAA9AckzWbkAM=
+github.com/Joker666/microservice-demo/protos v0.0.0-20201113122245-32a2db0aa7e9/go.mod h1:EPO+bwrGgPQAUAmhsOZnVwGZiFoS8RGnVcndIOj1rFk=
 github.com/OneOfOne/xxhash v1.2.2/go.mod h1:HSdplMjZKSmBqAxg5vPj2TmRDmfkzw+cTzAElWljhcU=
 github.com/alecthomas/template v0.0.0-20160405071501-a0175ee3bccc/go.mod h1:LOuyumcjzFXgccqObfd/Ljyb9UuFJ6TxHnclSeseNhc=
 github.com/alecthomas/units v0.0.0-20151022065526-2efee857e7cf/go.mod h1:ybxpYRFXyAe+OPACYpWeL0wqObRcbAqCMya13uyzqw0=

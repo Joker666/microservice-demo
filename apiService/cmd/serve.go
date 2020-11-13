@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	pb "github.com/Joker666/microservice-demo/apiService/proto"
+	pb "github.com/Joker666/microservice-demo/protos/api"
 	"github.com/Joker666/microservice-demo/apiService/server"
 
 	"log"
