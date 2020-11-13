@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package demo_project;
 
+option go_package = "github.com/Joker666/microservice-demo/projectService/proto";
+
 service ProjectSvc {
     rpc createProject (CreateProjectRequest) returns (ProjectResponse);
     rpc createTag (CreateTagRequest) returns (TagResponse);
