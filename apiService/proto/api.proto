@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package demo_api;
 
-option go_package = "github.com/microservice-demo/apiService/proto";
+option go_package = "github.com/joker666/microservice-demo/apiService";
 
 // The greeting service definition.
 service Greeter {

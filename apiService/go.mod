@@ -4,6 +4,7 @@ go 1.15
 
 require (
 	github.com/golang/protobuf v1.4.3 // indirect
+	github.com/joho/godotenv v1.3.0
 	github.com/spf13/cobra v1.1.1
 	golang.org/x/net v0.0.0-20201110031124-69a78807bb2b // indirect
 	golang.org/x/sys v0.0.0-20201112073958-5cba982894dd // indirect
