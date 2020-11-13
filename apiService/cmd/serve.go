@@ -3,6 +3,7 @@ package cmd
 import (
 	"github.com/Joker666/microservice-demo/apiService/server"
 	pb "github.com/Joker666/microservice-demo/protos/api"
+	"github.com/Joker666/microservice-demo/protos/user"
 
 	"log"
 	"net"
@@ -35,8 +36,16 @@ func serve(cmd *cobra.Command, args []string) error {
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
+
+	userConn, err := grpc.Dial(os.Getenv("USER_ADDRESS"), grpc.WithInsecure(), grpc.WithBlock())
+	if err != nil {
+		log.Fatalf("did not connect: %v", err)
+	}
+	defer userConn.Close()
+	userSvcClient := user.NewUserSvcClient(userConn)
+
 	s := grpc.NewServer()
-	pb.RegisterAPIServer(s, &server.Server{})
+	pb.RegisterAPIServer(s, server.New(userSvcClient))
 
 	log.Println("Starting GRPC server at: " + port)
 	if err := s.Serve(lis); err != nil {
