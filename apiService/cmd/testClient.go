@@ -7,6 +7,7 @@ import (
 	"time"
 
 	pb "github.com/Joker666/microservice-demo/protos/api"
+	"github.com/Joker666/microservice-demo/protos/user"
 	"github.com/spf13/cobra"
 	"google.golang.org/grpc"
 )
@@ -43,7 +44,7 @@ func testClient(cmd *cobra.Command, args []string) error {
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
-	r, err := c.RegisterUser(ctx, &pb.RegisterUserRequest{Name: name})
+	r, err := c.RegisterUser(ctx, &user.RegisterRequest{Name: name})
 	if err != nil {
 		log.Fatalf("could not greet: %v", err)
 	}
