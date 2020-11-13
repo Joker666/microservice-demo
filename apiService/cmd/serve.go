@@ -1,9 +1,8 @@
 package cmd
 
 import (
-	"context"
-
 	pb "github.com/Joker666/microservice-demo/apiService/proto"
+	"github.com/Joker666/microservice-demo/apiService/server"
 
 	"log"
 	"net"
@@ -13,16 +12,6 @@ import (
 	"github.com/spf13/cobra"
 	"google.golang.org/grpc"
 )
-
-type server struct {
-	pb.UnimplementedGreeterServer
-}
-
-// SayHello implements helloworld.GreeterServer
-func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
-	log.Printf("Received: %v", in.GetName())
-	return &pb.HelloReply{Message: "Hello " + in.GetName()}, nil
-}
 
 // srvCmd is the serve sub command to start the api server
 var srvCmd = &cobra.Command{
@@ -47,7 +36,7 @@ func serve(cmd *cobra.Command, args []string) error {
 		log.Fatalf("failed to listen: %v", err)
 	}
 	s := grpc.NewServer()
-	pb.RegisterGreeterServer(s, &server{})
+	pb.RegisterAPIServer(s, &server.Server{})
 
 	log.Println("Starting GRPC server at: " + port)
 	if err := s.Serve(lis); err != nil {
