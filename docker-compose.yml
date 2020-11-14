@@ -35,6 +35,8 @@ services:
         environment:
             - USER_HOST=user
             - USER_PORT=50051
+            - PROJECT_HOST=project
+            - PROJECT_PORT=50052
         ports:
             - 8082:50059
         command: serve
