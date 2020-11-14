@@ -4,8 +4,9 @@ const messages = require('./proto/service_pb');
 
 
 module.exports = class API {
-    constructor(db) {
+    constructor(db, grpc) {
         this.db = db;
+        this.grpc = grpc;
     }
 
     register = (call, callback) => {
@@ -45,13 +46,20 @@ module.exports = class API {
         auth.verify(call.request.getToken(), (usr) => {
             const users = this.db.collection("users");
 
-            users.findOne({ email: usr.email }).then(user => {
-                let resp = new messages.VerifyResponse();
-                resp.setId(user._id.toString());
-                resp.setName(user.name);
-                resp.setEmail(user.email);
-                callback(null, resp);
-            })
+            let resp = new messages.VerifyResponse();
+            if (usr) {
+                users.findOne({ email: usr.email }).then(user => {
+                    resp.setId(user._id.toString());
+                    resp.setName(user.name);
+                    resp.setEmail(user.email);
+                    callback(null, resp);
+                })
+            } else {
+                return callback({
+                    code: this.grpc.status.UNAUTHENTICATED,
+                    message: "No user found",
+                });
+            }
         })
     }
 };
