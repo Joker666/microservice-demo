@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+    user:
+        build:
+            context: ./userService
+        restart: "no"
+        environment:
+            - DB_URI=mongodb://mongo:27017/
+            - DB_NAME=Microservice-demo-user
+        ports:
+            - 8080:50051
+        depends_on:
+            - mongo
+
+    mongo:
+        image: mongo
+        restart: always
+        environment:
+            MONGO_INITDB_DATABASE: Microservice-demo-user
+        ports:
+            - 27017:27017
+        volumes:
+            - mongodb:/data/db
+            - mongodb_config:/data/configdb
+volumes:
+    mongodb:
+    mongodb_config:

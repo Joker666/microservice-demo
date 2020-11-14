@@ -2,27 +2,30 @@ require('dotenv').config();
 const grpc = require('@grpc/grpc-js');
 const { MongoClient } = require("mongodb");
 const services = require('./proto/service_grpc_pb');
-const api = require("./api");
+const API = require("./api");
 
 // Mongo Connection
 const dbClient = new MongoClient(process.env.DB_URI, { useUnifiedTopology: true });
-let db = null;
+let api = null;
 
 async function connectDB() {
     try {
         await dbClient.connect();
-        db = await dbClient.db(process.env.DB_NAME);
+        let db = await dbClient.db(process.env.DB_NAME);
         db.command({ ping: 1 });
         console.log("Connected successfully to mongo server");
-
         // Create index
         await db.collection("users").createIndex({ email: 1 });
+
+        // Init api
+        api = new API(db);
     } catch (e) {
         console.error(e);
     }
 }
 
-function main() {
+async function main() {
+    await connectDB().catch(console.dir);
     let server = new grpc.Server();
     server.addService(services.UserSvcService, {
         register: api.register,
@@ -32,7 +35,6 @@ function main() {
     let address = process.env.HOST + ":" + process.env.PORT;
     server.bindAsync(address, grpc.ServerCredentials.createInsecure(), () => {
         server.start();
-        connectDB().catch(console.dir);
         console.log("Server running at " + address);
     });
 }
