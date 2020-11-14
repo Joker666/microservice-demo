@@ -1,10 +1,12 @@
 package cmd
 
 import (
+	"github.com/Joker666/microservice-demo/apiService/interceptor"
 	"github.com/Joker666/microservice-demo/apiService/server"
 	pb "github.com/Joker666/microservice-demo/protos/api"
 	"github.com/Joker666/microservice-demo/protos/project"
 	"github.com/Joker666/microservice-demo/protos/user"
+	grpc_middleware "github.com/grpc-ecosystem/go-grpc-middleware"
 
 	"log"
 	"net"
@@ -56,7 +58,10 @@ func serve(cmd *cobra.Command, args []string) error {
 	defer projectConn.Close()
 	projectSvcClient := project.NewProjectSvcClient(projectConn)
 
-	s := grpc.NewServer()
+	unaryInterceptors := []grpc.UnaryServerInterceptor{
+		interceptor.UnaryAuthenticate(userSvcClient),
+	}
+	s := grpc.NewServer(grpc.UnaryInterceptor(grpc_middleware.ChainUnaryServer(unaryInterceptors...)))
 	pb.RegisterAPIServer(s, server.New(userSvcClient, projectSvcClient))
 
 	log.Println("Starting GRPC server at: " + port)

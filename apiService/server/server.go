@@ -2,6 +2,8 @@ package server
 
 import (
 	"context"
+	"github.com/Joker666/microservice-demo/apiService/interceptor"
+	"log"
 
 	pb "github.com/Joker666/microservice-demo/protos/api"
 	"github.com/Joker666/microservice-demo/protos/project"
@@ -32,5 +34,12 @@ func (s *Server) RegisterUser(ctx context.Context, in *user.RegisterRequest) (*u
 
 // CreateProject creates project for user
 func (s *Server) CreateProject(ctx context.Context, in *project.CreateProjectRequest) (*project.ProjectResponse, error) {
+	resp := &project.ProjectResponse{}
+	userID, err := interceptor.GetUserID(ctx)
+	if err != nil {
+		log.Println("Api: CreateProject", "failed to get user ID", err.Error())
+		return resp, err
+	}
+	in.UserId = userID
 	return s.projectSvcClient.CreateProject(ctx, in)
 }

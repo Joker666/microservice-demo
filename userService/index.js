@@ -18,7 +18,7 @@ async function connectDB() {
         await db.collection("users").createIndex({ email: 1 });
 
         // Init api
-        api = new API(db);
+        api = new API(db, grpc);
     } catch (e) {
         console.error(e);
     }

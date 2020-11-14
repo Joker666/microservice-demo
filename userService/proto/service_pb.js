@@ -154,7 +154,7 @@ proto.demo_user.VerifyRequest.prototype.toObject = function(opt_includeInstance)
  */
 proto.demo_user.VerifyRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-    token: jspb.Message.getFieldWithDefault(msg, 2, "")
+    token: jspb.Message.getFieldWithDefault(msg, 1, "")
   };
 
   if (includeInstance) {
@@ -191,7 +191,7 @@ proto.demo_user.VerifyRequest.deserializeBinaryFromReader = function(msg, reader
     }
     var field = reader.getFieldNumber();
     switch (field) {
-    case 2:
+    case 1:
       var value = /** @type {string} */ (reader.readString());
       msg.setToken(value);
       break;
@@ -227,7 +227,7 @@ proto.demo_user.VerifyRequest.serializeBinaryToWriter = function(message, writer
   f = message.getToken();
   if (f.length > 0) {
     writer.writeString(
-      2,
+      1,
       f
     );
   }
@@ -235,11 +235,11 @@ proto.demo_user.VerifyRequest.serializeBinaryToWriter = function(message, writer
 
 
 /**
- * optional string token = 2;
+ * optional string token = 1;
  * @return {string}
  */
 proto.demo_user.VerifyRequest.prototype.getToken = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
@@ -248,7 +248,7 @@ proto.demo_user.VerifyRequest.prototype.getToken = function() {
  * @return {!proto.demo_user.VerifyRequest} returns this
  */
 proto.demo_user.VerifyRequest.prototype.setToken = function(value) {
-  return jspb.Message.setProto3StringField(this, 2, value);
+  return jspb.Message.setProto3StringField(this, 1, value);
 };
 
 
@@ -284,8 +284,8 @@ proto.demo_user.LoginRequest.prototype.toObject = function(opt_includeInstance) 
  */
 proto.demo_user.LoginRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-    email: jspb.Message.getFieldWithDefault(msg, 2, ""),
-    password: jspb.Message.getFieldWithDefault(msg, 3, "")
+    email: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    password: jspb.Message.getFieldWithDefault(msg, 2, "")
   };
 
   if (includeInstance) {
@@ -322,11 +322,11 @@ proto.demo_user.LoginRequest.deserializeBinaryFromReader = function(msg, reader)
     }
     var field = reader.getFieldNumber();
     switch (field) {
-    case 2:
+    case 1:
       var value = /** @type {string} */ (reader.readString());
       msg.setEmail(value);
       break;
-    case 3:
+    case 2:
       var value = /** @type {string} */ (reader.readString());
       msg.setPassword(value);
       break;
@@ -362,14 +362,14 @@ proto.demo_user.LoginRequest.serializeBinaryToWriter = function(message, writer)
   f = message.getEmail();
   if (f.length > 0) {
     writer.writeString(
-      2,
+      1,
       f
     );
   }
   f = message.getPassword();
   if (f.length > 0) {
     writer.writeString(
-      3,
+      2,
       f
     );
   }
@@ -377,11 +377,11 @@ proto.demo_user.LoginRequest.serializeBinaryToWriter = function(message, writer)
 
 
 /**
- * optional string email = 2;
+ * optional string email = 1;
  * @return {string}
  */
 proto.demo_user.LoginRequest.prototype.getEmail = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
@@ -390,16 +390,16 @@ proto.demo_user.LoginRequest.prototype.getEmail = function() {
  * @return {!proto.demo_user.LoginRequest} returns this
  */
 proto.demo_user.LoginRequest.prototype.setEmail = function(value) {
-  return jspb.Message.setProto3StringField(this, 2, value);
+  return jspb.Message.setProto3StringField(this, 1, value);
 };
 
 
 /**
- * optional string password = 3;
+ * optional string password = 2;
  * @return {string}
  */
 proto.demo_user.LoginRequest.prototype.getPassword = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
 
@@ -408,7 +408,7 @@ proto.demo_user.LoginRequest.prototype.getPassword = function() {
  * @return {!proto.demo_user.LoginRequest} returns this
  */
 proto.demo_user.LoginRequest.prototype.setPassword = function(value) {
-  return jspb.Message.setProto3StringField(this, 3, value);
+  return jspb.Message.setProto3StringField(this, 2, value);
 };
 
 

@@ -6,6 +6,9 @@ module.exports.generateToken = (payload) => {
 
 module.exports.verify = (token, callback) => {
     jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
+        if (err) {
+            console.error(err);
+        }
         callback(user);
     });
 }
