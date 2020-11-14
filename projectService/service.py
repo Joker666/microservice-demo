@@ -14,7 +14,7 @@ import proto.service_pb2_grpc as service
 
 load_dotenv(verbose=True)
 
-engine = create_engine('mysql+mysqldb://root:zOJSvEEFc5@127.0.0.1:3306/microservice-project', echo=False)
+engine = create_engine(os.getenv("DB_URI"), echo=False)
 conn = engine.connect()
 Session = sessionmaker(bind=engine)
 session = Session()

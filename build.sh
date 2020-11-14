@@ -17,6 +17,10 @@ pushd projectService/proto
 sed -i -E 's/^import.*_pb2/from . \0/' *.py
 popd
 
+pushd projectService
+pipenv lock -r > requirements.txt
+popd
+
 
 packs=(
     "api"

@@ -13,6 +13,29 @@ services:
         depends_on:
             - mongo
 
+    project:
+        build:
+            context: ./projectService
+        restart: "no"
+        environment:
+            - DB_URI=mysql+mysqldb://root:password@mysql:3306/microservice-project
+        ports:
+            - 8081:50052
+        depends_on:
+            - mysql
+            - user
+
+    mysql:
+        image: mysql:5.7
+        restart: "no"
+        environment:
+            MYSQL_DATABASE: microservice-project
+            MYSQL_ROOT_PASSWORD: password
+        ports:
+            - 3306:3306
+        volumes:
+            - mysqldb:/var/lib/mysql
+
     mongo:
         image: mongo
         restart: always
@@ -23,6 +46,8 @@ services:
         volumes:
             - mongodb:/data/db
             - mongodb_config:/data/configdb
+
 volumes:
+    mysqldb:
     mongodb:
     mongodb_config:
