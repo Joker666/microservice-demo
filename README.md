@@ -20,12 +20,15 @@ The project is the world's simplest task management software. A user can registe
 - [User Service](https://github.com/Joker666/microservice-demo/tree/main/userService) written in nodejs with mongodb as data layer.
 <br />
 It handles user registraion/login and authentication for other services
+
 - [Project Service](https://github.com/Joker666/microservice-demo/tree/main/projectService) written in python with mysql as data layer.
 <br />
 It handles project and tags creation and update.
+
 - [Task Service](https://github.com/Joker666/microservice-demo/tree/main/taskService) written in python with mysql as data layer.
 <br />
 It handles task creation, add tags to task and assign task to a user
+
 - [API Service](https://github.com/Joker666/microservice-demo/tree/main/apiService) written in python with mysql as data layer.
 <br />
 This service contains reverse proxy apigateway to transcode HTTP 1.0 requests to/from rpc to requests. This also handles routing service calls to all the services.
