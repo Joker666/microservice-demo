@@ -3,6 +3,7 @@ package cmd
 import (
 	"github.com/Joker666/microservice-demo/apiService/server"
 	pb "github.com/Joker666/microservice-demo/protos/api"
+	"github.com/Joker666/microservice-demo/protos/project"
 	"github.com/Joker666/microservice-demo/protos/user"
 
 	"log"
@@ -37,15 +38,26 @@ func serve(cmd *cobra.Command, args []string) error {
 		log.Fatalf("failed to listen: %v", err)
 	}
 
-	userConn, err := grpc.Dial(os.Getenv("USER_ADDRESS"), grpc.WithInsecure(), grpc.WithBlock())
+	userAddress := os.Getenv("USER_HOST") + ":" + os.Getenv("USER_PORT")
+	log.Println("Connecting to user service on " + userAddress)
+	userConn, err := grpc.Dial(userAddress, grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}
 	defer userConn.Close()
 	userSvcClient := user.NewUserSvcClient(userConn)
 
+	projectAddress := os.Getenv("PROJECT_HOST") + ":" + os.Getenv("PROJECT_PORT")
+	log.Println("Connecting to project service on " + projectAddress)
+	projectConn, err := grpc.Dial(projectAddress, grpc.WithInsecure(), grpc.WithBlock())
+	if err != nil {
+		log.Fatalf("did not connect: %v", err)
+	}
+	defer projectConn.Close()
+	projectSvcClient := project.NewProjectSvcClient(projectConn)
+
 	s := grpc.NewServer()
-	pb.RegisterAPIServer(s, server.New(userSvcClient))
+	pb.RegisterAPIServer(s, server.New(userSvcClient, projectSvcClient))
 
 	log.Println("Starting GRPC server at: " + port)
 	if err := s.Serve(lis); err != nil {

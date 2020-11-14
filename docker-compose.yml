@@ -4,6 +4,7 @@ services:
     user:
         build:
             context: ./userService
+        image: microservice/demo/user
         restart: "no"
         environment:
             - DB_URI=mongodb://mongo:27017/
@@ -16,6 +17,7 @@ services:
     project:
         build:
             context: ./projectService
+        image: microservice/demo/project
         restart: "no"
         environment:
             - DB_URI=mysql+mysqldb://root:password@mysql:3306/microservice-project
@@ -24,6 +26,35 @@ services:
         depends_on:
             - mysql
             - user
+
+    api:
+        build:
+            context: ./apiService
+        image: microservice/demo/api
+        restart: "no"
+        environment:
+            - USER_HOST=user
+            - USER_PORT=50051
+        ports:
+            - 8082:50059
+        command: serve
+        depends_on:
+            - user
+            - project
+
+
+    api-gateway:
+        image: microservice/demo/api
+        restart: "no"
+        environment:
+            - HOST=api
+            - PORT=50059
+            - PROXY_PORT=9090
+        ports:
+            - 9090:9090
+        command: proxy
+        depends_on:
+            - api
 
     mysql:
         image: mysql:5.7

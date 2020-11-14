@@ -6,13 +6,21 @@ option go_package = "github.com/Joker666/microservice-demo/protos/api";
 
 import "google/api/annotations.proto";
 import "user/service.proto";
+import "project/service.proto";
 
-// The greeting service definition.
 service API {
-    // Sends a greeting
+    // Creates user
     rpc RegisterUser (demo_user.RegisterRequest) returns (demo_user.UserResponse) {
         option (google.api.http) = {
             post: "/v1/user/register"
+            body: "*"
+        };
+    }
+
+    // Creates project
+    rpc CreateProject (demo_project.CreateProjectRequest) returns (demo_project.ProjectResponse) {
+        option (google.api.http) = {
+            post: "/v1/project/create"
             body: "*"
         };
     }

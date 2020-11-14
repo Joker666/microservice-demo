@@ -4,6 +4,7 @@ package api
 
 import (
 	context "context"
+	project "github.com/Joker666/microservice-demo/protos/project"
 	user "github.com/Joker666/microservice-demo/protos/user"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -18,8 +19,10 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type APIClient interface {
-	// Sends a greeting
+	// Creates user
 	RegisterUser(ctx context.Context, in *user.RegisterRequest, opts ...grpc.CallOption) (*user.UserResponse, error)
+	// Creates project
+	CreateProject(ctx context.Context, in *project.CreateProjectRequest, opts ...grpc.CallOption) (*project.ProjectResponse, error)
 }
 
 type aPIClient struct {
@@ -39,12 +42,23 @@ func (c *aPIClient) RegisterUser(ctx context.Context, in *user.RegisterRequest, 
 	return out, nil
 }
 
+func (c *aPIClient) CreateProject(ctx context.Context, in *project.CreateProjectRequest, opts ...grpc.CallOption) (*project.ProjectResponse, error) {
+	out := new(project.ProjectResponse)
+	err := c.cc.Invoke(ctx, "/demo_api.API/CreateProject", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // APIServer is the server API for API service.
 // All implementations must embed UnimplementedAPIServer
 // for forward compatibility
 type APIServer interface {
-	// Sends a greeting
+	// Creates user
 	RegisterUser(context.Context, *user.RegisterRequest) (*user.UserResponse, error)
+	// Creates project
+	CreateProject(context.Context, *project.CreateProjectRequest) (*project.ProjectResponse, error)
 	mustEmbedUnimplementedAPIServer()
 }
 
@@ -54,6 +68,9 @@ type UnimplementedAPIServer struct {
 
 func (UnimplementedAPIServer) RegisterUser(context.Context, *user.RegisterRequest) (*user.UserResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RegisterUser not implemented")
+}
+func (UnimplementedAPIServer) CreateProject(context.Context, *project.CreateProjectRequest) (*project.ProjectResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateProject not implemented")
 }
 func (UnimplementedAPIServer) mustEmbedUnimplementedAPIServer() {}
 
@@ -86,6 +103,24 @@ func _API_RegisterUser_Handler(srv interface{}, ctx context.Context, dec func(in
 	return interceptor(ctx, in, info, handler)
 }
 
+func _API_CreateProject_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(project.CreateProjectRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(APIServer).CreateProject(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/demo_api.API/CreateProject",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(APIServer).CreateProject(ctx, req.(*project.CreateProjectRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _API_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "demo_api.API",
 	HandlerType: (*APIServer)(nil),
@@ -93,6 +128,10 @@ var _API_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RegisterUser",
 			Handler:    _API_RegisterUser_Handler,
+		},
+		{
+			MethodName: "CreateProject",
+			Handler:    _API_CreateProject_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

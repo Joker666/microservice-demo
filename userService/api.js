@@ -15,7 +15,7 @@ module.exports = class API {
             let user = { name: call.request.getName(), email: call.request.getEmail(), password: hash }
             users.insertOne(user).then(r => {
                 let resp = new messages.UserResponse();
-                resp.setId(user._id);
+                resp.setId(user._id.toString());
                 resp.setName(user.name);
                 resp.setEmail(user.email);
                 resp.setToken(auth.generateToken(user));
@@ -31,7 +31,7 @@ module.exports = class API {
             bcrypt.compare(call.request.getPassword(), user.password, (err, result) => {
                 if (result) {
                     let resp = new messages.UserResponse();
-                    resp.setId(user._id);
+                    resp.setId(user._id.toString());
                     resp.setName(user.name);
                     resp.setEmail(user.email);
                     resp.setToken(auth.generateToken(user));
@@ -47,7 +47,7 @@ module.exports = class API {
 
             users.findOne({ email: usr.email }).then(user => {
                 let resp = new messages.VerifyResponse();
-                resp.setId(user._id);
+                resp.setId(user._id.toString());
                 resp.setName(user.name);
                 resp.setEmail(user.email);
                 callback(null, resp);
