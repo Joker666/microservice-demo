@@ -3,7 +3,7 @@ module github.com/Joker666/microservice-demo/apiService
 go 1.15
 
 require (
-	github.com/Joker666/microservice-demo/protos v0.0.0-20201114192550-d8c644fb07f5
+	github.com/Joker666/microservice-demo/protos v0.0.0-20201114213216-d0c8fbfd3cf7
 	github.com/golang/protobuf v1.4.3 // indirect
 	github.com/grpc-ecosystem/go-grpc-middleware v1.2.2
 	github.com/grpc-ecosystem/grpc-gateway v1.9.0 // indirect
