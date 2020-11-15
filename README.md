@@ -4,9 +4,17 @@
 ## Table of Contents
 - [About the project](#about-the-project)
     - [Motivation](#motivation)
+    - [Features](#features)
     - [Architecture](#architecture)
     - [Transport Layer](#transport-layer)
-- [How to run](#run)
+- [How to run](#how-to-run)
+    - [User Service](#running-nodejs-based-user-service)
+    - [Project Service](#running-python-based-project-service)
+    - [API Service](#running-golang-based-api-service)
+    - [Run Everything](#running-everything-using-docker-compose)
+- [Roadmap](#roadmap)
+- [Contribution](#contribution)
+- [License](#license)
 
 ## About the project
 A proof of concept demo of how to write microservices in various technologies and how to bind them together to make one seamless application. The project will keep growing as I keep adding newer technologies to it. Contributions are welcome.
@@ -16,12 +24,23 @@ If you have not been living under the rock for a while, microservice is the defa
 
 I have been writing microservices for a while. But I remember having little to no resource on the web for how to stick all the different parts together. I had to struggle a lot and find solutions with trial and error. That's why I started writing this repo to demonstrate programmers how they can get started with microservices.
 
+### Features
+- **Multiple Stacks**: The application is designed with multiple software stacks. Different services use different languages and databases to demonstration how to build a microservice based application with languages or tools that serve the best purpose for that service
+- **GRPC**: The services communicate with each other using GRPC framework to reduce latency in network calls
+- **Docker**: Each service has it's own dockerfile on how to run the service as standalone and docker-compose to run all at once
+- **API Gateway**: This application has api gateway service which can route api calls to desired services
+- **Proxy Server**: It also comes with a proxy server built with GRPC Gateway to handle HTTP 1.0 requests so that the app can be tested with tools like Postman
+- **JWT Authentication**: This also showcases how you can secure a service with authentication middleware
+
 ### Architecture
 The project is the world's simplest task management software. A user can register, create projects/tags, add tasks to the projects and tag the tasks into categories. So we have divided the responsibilities into 3 services.
-- [User Service](https://github.com/Joker666/microservice-demo/tree/main/userService) written in **NodeJS** with **MongoDB** as data layer. It handles user registration/login and authentication for other services
-- [Project Service](https://github.com/Joker666/microservice-demo/tree/main/projectService) written in **Python** with **MySQl** as data layer. It handles project and tags creation and update.
-- [Task Service](https://github.com/Joker666/microservice-demo/tree/main/taskService) written in **C#** with **PostgreSQL** as data layer. It handles task creation, add tags to task and assign task to a user
-- [API Service](https://github.com/Joker666/microservice-demo/tree/main/apiService) written in **Golang**. This service contains reverse proxy apigateway to transcode HTTP 1.0 requests to/from rpc requests. This also handles routing api calls to all the services.
+
+| Service                                                      | Technologies    | Description                                                  |
+| ------------------------------------------------------------ | --------------- | :----------------------------------------------------------- |
+| [User Service](https://github.com/Joker666/microservice-demo/tree/main/userService) | NodeJS, MongoDB | It handles user registration/login and authentication for other services |
+| [Project Service](https://github.com/Joker666/microservice-demo/tree/main/projectService) | Python, MySQL   | It handles project and tags creation and update              |
+| [Task Service](https://github.com/Joker666/microservice-demo/tree/main/taskService) | C#, PostgreSQL  | It handles task creation, add tags to task and assign task to a user |
+| [API Service](https://github.com/Joker666/microservice-demo/tree/main/apiService) | Go              | It handles routing api calls to all the services and a proxy server to handle HTTP 1.0 requests |
 
 We have chosen to use monorepo for all the services since it will ease the process for us.
 
@@ -30,6 +49,8 @@ GRPC is being used as the transport layer among services. This is the modern app
 
 ## How to Run
 Since we have used several technologies to make different microservices, you would need few tools installed in your system to run this app. I will detail everything, so that the process is smooth for you.
+
+You can skip to [Run Everything](#running-everything-using-docker-compose) to run all the services without going through the steps of how to run individual services.
 
 There are some tools that are required to be installed globally.
 - **Docker** - The container management system we are using. You can install docker from https://www.docker.com/
@@ -54,7 +75,7 @@ In python world, it is common to use dedicated environment per project to not po
 - **Pipenv**
 - **MySQL**
 
-After that, run `pipenv install`, if you are using `pipenv`, from within `projectService` directory. If you are not using `pipenv` run 
+After that, if you are using `pipenv` run `pipenv install`, from within `projectService` directory. If you are not using `pipenv` run 
 `pip install -r requirements.txt`. Make sure MySQL is running and the url is updated in `.env`. The required compiled proto files are already in `proto` directory.
 If you are not already inside the virtual environment, activate it with `pipenv shell`(only required if you are using `pipenv`). Then run the service with `python service.py` or `python3 service.py`
 
@@ -68,9 +89,46 @@ I have added convenient `build.sh` the creates the binary and `run.sh` that runs
 
 #### Running the Golang based Proxy Server
 The proxy server is inside `apiService`. This helps us transcode HTTP 1.0 requests to from rpc requests. So that we can use tools like Postman to hit endpoints in this application. If you are using GRPC-Web, you do not need this. But I doubt about it's widespread usage. Required tools
-- **GRPC-Gateway**
+- **GRPC-Gateway**, you do not need to explicitly install it, it is being taken care of with `build.sh`
 
 After running `build.sh`, run `$GOPATH/bin/apiService proxy` to start the proxy server. Make sure api service GRPC server is running already.
 
 ### Running everything using Docker-Compose
-You can either run each service separately and then interact with the application or use docker-compose to run all of them at once and remove complexity.
+You can either run each service separately and then interact with the application or use docker-compose to run all of them at once and remove complexity. You do not need anything other than **Docker** installed in the system. Just run
+```docker-compose.yml up --build```
+and it will spin up all the services. If it fails for some reason due to MySQL/MongoDB creating database for the first time, run again. After a few minutes if you `docker ps`, you should see
+
+![List of services](https://i.imgur.com/qtaHZC9.png)
+
+And now you have a set of microservices running that you can access with the proxy server's url `localhost:9090`
+
+## Roadmap
+- Write development docs
+- Add task service
+- Add a HTTP 1.0 service
+- Add helm charts and run in Kubernetes cluster
+- Add monitoring
+- Add tracing
+- Add service mesh
+
+## Contribution
+Want to contribute? Great!
+
+To fix a bug or enhance an existing module, follow these steps:
+
+- Fork the repo
+- Create a new branch (`git checkout -b improve-feature`)
+- Make the appropriate changes in the files
+- Add changes to reflect the changes made
+- Commit your changes (`git commit -am 'Improve feature'`)
+- Push to the branch (`git push origin improve-feature`)
+- Create a Pull Request 
+
+### Bug / Feature Request
+If you find a bug, kindly open an issue [here](https://github.com/Joker666/microservice-demo/issues/new)
+If you'd like to request/add a new function, feel free to do so by opening an issue [here](https://github.com/Joker666/microservice-demo/issues/new). 
+
+
+## [License](https://github.com/Joker666/microservice-demo/blob/master/LICENSE.md)
+
+MIT © [MD Ahad Hasan](https://github.com/joker666)
