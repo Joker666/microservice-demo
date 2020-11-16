@@ -129,5 +129,5 @@ var _ProjectSvc_serviceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "protos/project/service.proto",
+	Metadata: "protos/project/project.proto",
 }

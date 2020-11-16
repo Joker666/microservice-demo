@@ -13,6 +13,13 @@ python -m grpc_tools.protoc \
     --proto_path=./protos/project ./protos/project/*.proto
 
 
+grpc_tools_ruby_protoc \
+    -I protos \
+    --ruby_out=./taskService/proto \
+    --grpc_out=./taskService/proto \
+    ./protos/task/*.proto
+
+
 pushd projectService/proto
 sed -i -E 's/^import.*_pb2/from . \0/' *.py
 popd
@@ -26,6 +33,7 @@ packs=(
     "api"
     "user"
     "project"
+    "task"
 );
 
 for d in ${packs[@]} ; do

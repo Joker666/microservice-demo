@@ -1,3 +1,5 @@
+[![License](https://img.shields.io/badge/license-SATA-blue)](https://github.com/Joker666/microservice-demo/blob/master/LICENSE)
+
 ![logo](https://i.imgur.com/KpKFXgP.png)
 <h1 align="center">Microservice Demo</h1>
 
@@ -125,9 +127,12 @@ To fix a bug or enhance an existing module, follow these steps:
 - Create a Pull Request 
 
 ### Bug / Feature Request
-If you find a bug, kindly open an issue [here](https://github.com/Joker666/microservice-demo/issues/new)
+If you find a bug, kindly open an issue [here](https://github.com/Joker666/microservice-demo/issues/new).<br/>
 If you'd like to request/add a new function, feel free to do so by opening an issue [here](https://github.com/Joker666/microservice-demo/issues/new). 
 
+## See Also
+- https://github.com/GoogleCloudPlatform/microservices-demo
+- https://github.com/microservices-demo/microservices-demo
 
 ## [License](https://github.com/Joker666/microservice-demo/blob/master/LICENSE.md)
 

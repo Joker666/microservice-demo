@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package demo_task;
+
+option go_package = "github.com/Joker666/microservice-demo/protos/task";
+
+import "project/project.proto";
+import "user/user.proto";
+
+service TaskSvc {
+    rpc createTask (CreateTaskRequest) returns (TaskResponse);
+}
+
+message CreateTaskRequest {
+    string user_id = 1;
+    string name = 2;
+    string project_id = 3;
+    string tag_id = 4;
+    string assigned_user_id = 5;
+}
+
+message TaskResponse {
+    string user_id = 1;
+    string name = 2;
+    demo_project.ProjectResponse project = 3;
+    demo_project.TagResponse tag = 4;
+    demo_user.UserResponse assigned_user = 5;
+}

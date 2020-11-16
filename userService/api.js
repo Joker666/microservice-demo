@@ -29,16 +29,23 @@ module.exports = class API {
         const users = this.db.collection("users");
 
         users.findOne({ email: call.request.getEmail() }).then(user => {
-            bcrypt.compare(call.request.getPassword(), user.password, (err, result) => {
-                if (result) {
-                    let resp = new messages.UserResponse();
-                    resp.setId(user._id.toString());
-                    resp.setName(user.name);
-                    resp.setEmail(user.email);
-                    resp.setToken(auth.generateToken(user));
-                    callback(null, resp);
-                }
-            });
+            if (user) {
+                bcrypt.compare(call.request.getPassword(), user.password, (err, result) => {
+                    if (result) {
+                        let resp = new messages.UserResponse();
+                        resp.setId(user._id.toString());
+                        resp.setName(user.name);
+                        resp.setEmail(user.email);
+                        resp.setToken(auth.generateToken(user));
+                        callback(null, resp);
+                    }
+                });
+            } else {
+                return callback({
+                    code: this.grpc.status.UNAUTHENTICATED,
+                    message: "No user found",
+                });
+            }
         });
     }
 

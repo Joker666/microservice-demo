@@ -5,8 +5,8 @@ package demo_api;
 option go_package = "github.com/Joker666/microservice-demo/protos/api";
 
 import "google/api/annotations.proto";
-import "user/service.proto";
-import "project/service.proto";
+import "user/user.proto";
+import "project/project.proto";
 
 service API {
     // Creates user

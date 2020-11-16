@@ -165,5 +165,5 @@ var _UserSvc_serviceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "protos/user/service.proto",
+	Metadata: "protos/user/user.proto",
 }
