@@ -18,6 +18,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type TaskSvcClient interface {
 	CreateTask(ctx context.Context, in *CreateTaskRequest, opts ...grpc.CallOption) (*TaskResponse, error)
+	UpdateTask(ctx context.Context, in *UpdateTaskRequest, opts ...grpc.CallOption) (*TaskResponse, error)
 }
 
 type taskSvcClient struct {
@@ -37,11 +38,21 @@ func (c *taskSvcClient) CreateTask(ctx context.Context, in *CreateTaskRequest, o
 	return out, nil
 }
 
+func (c *taskSvcClient) UpdateTask(ctx context.Context, in *UpdateTaskRequest, opts ...grpc.CallOption) (*TaskResponse, error) {
+	out := new(TaskResponse)
+	err := c.cc.Invoke(ctx, "/demo_task.TaskSvc/updateTask", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // TaskSvcServer is the server API for TaskSvc service.
 // All implementations must embed UnimplementedTaskSvcServer
 // for forward compatibility
 type TaskSvcServer interface {
 	CreateTask(context.Context, *CreateTaskRequest) (*TaskResponse, error)
+	UpdateTask(context.Context, *UpdateTaskRequest) (*TaskResponse, error)
 	mustEmbedUnimplementedTaskSvcServer()
 }
 
@@ -51,6 +62,9 @@ type UnimplementedTaskSvcServer struct {
 
 func (UnimplementedTaskSvcServer) CreateTask(context.Context, *CreateTaskRequest) (*TaskResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateTask not implemented")
+}
+func (UnimplementedTaskSvcServer) UpdateTask(context.Context, *UpdateTaskRequest) (*TaskResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateTask not implemented")
 }
 func (UnimplementedTaskSvcServer) mustEmbedUnimplementedTaskSvcServer() {}
 
@@ -83,6 +97,24 @@ func _TaskSvc_CreateTask_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
+func _TaskSvc_UpdateTask_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateTaskRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TaskSvcServer).UpdateTask(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/demo_task.TaskSvc/updateTask",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TaskSvcServer).UpdateTask(ctx, req.(*UpdateTaskRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _TaskSvc_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "demo_task.TaskSvc",
 	HandlerType: (*TaskSvcServer)(nil),
@@ -90,6 +122,10 @@ var _TaskSvc_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "createTask",
 			Handler:    _TaskSvc_CreateTask_Handler,
+		},
+		{
+			MethodName: "updateTask",
+			Handler:    _TaskSvc_UpdateTask_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -12,12 +12,11 @@ python -m grpc_tools.protoc \
     --grpc_python_out=./projectService/proto \
     --proto_path=./protos/project ./protos/project/*.proto
 
-
 grpc_tools_ruby_protoc \
-    -I protos \
+    --proto_path=./protos \
     --ruby_out=./taskService/proto \
     --grpc_out=./taskService/proto \
-    ./protos/task/*.proto
+    ./protos/task/*.proto ./protos/user/*.proto ./protos/project/*.proto
 
 
 pushd projectService/proto

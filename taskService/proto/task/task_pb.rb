@@ -14,6 +14,12 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       optional :tag_id, :string, 4
       optional :assigned_user_id, :string, 5
     end
+    add_message "demo_task.UpdateTaskRequest" do
+      optional :user_id, :string, 1
+      optional :task_id, :string, 2
+      optional :tag_id, :string, 3
+      optional :assigned_user_id, :string, 4
+    end
     add_message "demo_task.TaskResponse" do
       optional :user_id, :string, 1
       optional :name, :string, 2
@@ -26,5 +32,6 @@ end
 
 module DemoTask
   CreateTaskRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("demo_task.CreateTaskRequest").msgclass
+  UpdateTaskRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("demo_task.UpdateTaskRequest").msgclass
   TaskResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("demo_task.TaskResponse").msgclass
 end

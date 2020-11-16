@@ -5,6 +5,7 @@ package api
 import (
 	context "context"
 	project "github.com/Joker666/microservice-demo/protos/project"
+	task "github.com/Joker666/microservice-demo/protos/task"
 	user "github.com/Joker666/microservice-demo/protos/user"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -23,6 +24,10 @@ type APIClient interface {
 	RegisterUser(ctx context.Context, in *user.RegisterRequest, opts ...grpc.CallOption) (*user.UserResponse, error)
 	// Creates project
 	CreateProject(ctx context.Context, in *project.CreateProjectRequest, opts ...grpc.CallOption) (*project.ProjectResponse, error)
+	// Creates task
+	CreateTask(ctx context.Context, in *task.CreateTaskRequest, opts ...grpc.CallOption) (*task.TaskResponse, error)
+	// Updates task
+	UpdateTask(ctx context.Context, in *task.UpdateTaskRequest, opts ...grpc.CallOption) (*task.TaskResponse, error)
 }
 
 type aPIClient struct {
@@ -51,6 +56,24 @@ func (c *aPIClient) CreateProject(ctx context.Context, in *project.CreateProject
 	return out, nil
 }
 
+func (c *aPIClient) CreateTask(ctx context.Context, in *task.CreateTaskRequest, opts ...grpc.CallOption) (*task.TaskResponse, error) {
+	out := new(task.TaskResponse)
+	err := c.cc.Invoke(ctx, "/demo_api.API/CreateTask", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *aPIClient) UpdateTask(ctx context.Context, in *task.UpdateTaskRequest, opts ...grpc.CallOption) (*task.TaskResponse, error) {
+	out := new(task.TaskResponse)
+	err := c.cc.Invoke(ctx, "/demo_api.API/updateTask", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // APIServer is the server API for API service.
 // All implementations must embed UnimplementedAPIServer
 // for forward compatibility
@@ -59,6 +82,10 @@ type APIServer interface {
 	RegisterUser(context.Context, *user.RegisterRequest) (*user.UserResponse, error)
 	// Creates project
 	CreateProject(context.Context, *project.CreateProjectRequest) (*project.ProjectResponse, error)
+	// Creates task
+	CreateTask(context.Context, *task.CreateTaskRequest) (*task.TaskResponse, error)
+	// Updates task
+	UpdateTask(context.Context, *task.UpdateTaskRequest) (*task.TaskResponse, error)
 	mustEmbedUnimplementedAPIServer()
 }
 
@@ -71,6 +98,12 @@ func (UnimplementedAPIServer) RegisterUser(context.Context, *user.RegisterReques
 }
 func (UnimplementedAPIServer) CreateProject(context.Context, *project.CreateProjectRequest) (*project.ProjectResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateProject not implemented")
+}
+func (UnimplementedAPIServer) CreateTask(context.Context, *task.CreateTaskRequest) (*task.TaskResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateTask not implemented")
+}
+func (UnimplementedAPIServer) UpdateTask(context.Context, *task.UpdateTaskRequest) (*task.TaskResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateTask not implemented")
 }
 func (UnimplementedAPIServer) mustEmbedUnimplementedAPIServer() {}
 
@@ -121,6 +154,42 @@ func _API_CreateProject_Handler(srv interface{}, ctx context.Context, dec func(i
 	return interceptor(ctx, in, info, handler)
 }
 
+func _API_CreateTask_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(task.CreateTaskRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(APIServer).CreateTask(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/demo_api.API/CreateTask",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(APIServer).CreateTask(ctx, req.(*task.CreateTaskRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _API_UpdateTask_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(task.UpdateTaskRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(APIServer).UpdateTask(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/demo_api.API/updateTask",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(APIServer).UpdateTask(ctx, req.(*task.UpdateTaskRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _API_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "demo_api.API",
 	HandlerType: (*APIServer)(nil),
@@ -132,6 +201,14 @@ var _API_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateProject",
 			Handler:    _API_CreateProject_Handler,
+		},
+		{
+			MethodName: "CreateTask",
+			Handler:    _API_CreateTask_Handler,
+		},
+		{
+			MethodName: "updateTask",
+			Handler:    _API_UpdateTask_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

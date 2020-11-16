@@ -15,6 +15,7 @@ module DemoTask
       self.service_name = 'demo_task.TaskSvc'
 
       rpc :createTask, ::DemoTask::CreateTaskRequest, ::DemoTask::TaskResponse
+      rpc :updateTask, ::DemoTask::UpdateTaskRequest, ::DemoTask::TaskResponse
     end
 
     Stub = Service.rpc_stub_class

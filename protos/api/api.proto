@@ -7,6 +7,7 @@ option go_package = "github.com/Joker666/microservice-demo/protos/api";
 import "google/api/annotations.proto";
 import "user/user.proto";
 import "project/project.proto";
+import "task/task.proto";
 
 service API {
     // Creates user
@@ -21,6 +22,22 @@ service API {
     rpc CreateProject (demo_project.CreateProjectRequest) returns (demo_project.ProjectResponse) {
         option (google.api.http) = {
             post: "/v1/project/create"
+            body: "*"
+        };
+    }
+
+    // Creates task
+    rpc CreateTask (demo_task.CreateTaskRequest) returns (demo_task.TaskResponse) {
+        option (google.api.http) = {
+            post: "/v1/task/create"
+            body: "*"
+        };
+    }
+
+    // Updates task
+    rpc updateTask (demo_task.UpdateTaskRequest) returns (demo_task.TaskResponse) {
+        option (google.api.http) = {
+            post: "/v1/task/update"
             body: "*"
         };
     }

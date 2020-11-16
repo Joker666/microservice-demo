@@ -41,7 +41,7 @@ The project is the world's simplest task management software. A user can registe
 | ------------------------------------------------------------ | --------------- | :----------------------------------------------------------- |
 | [User Service](https://github.com/Joker666/microservice-demo/tree/main/userService) | NodeJS, MongoDB | It handles user registration/login and authentication for other services |
 | [Project Service](https://github.com/Joker666/microservice-demo/tree/main/projectService) | Python, MySQL   | It handles project and tags creation and update              |
-| [Task Service](https://github.com/Joker666/microservice-demo/tree/main/taskService) | C#, PostgreSQL  | It handles task creation, add tags to task and assign task to a user |
+| [Task Service](https://github.com/Joker666/microservice-demo/tree/main/taskService) | Ruby, PostgreSQL  | It handles task creation, add tags to task and assign task to a user |
 | [API Service](https://github.com/Joker666/microservice-demo/tree/main/apiService) | Go              | It handles routing api calls to all the services and a proxy server to handle HTTP 1.0 requests |
 
 We have chosen to use monorepo for all the services since it will ease the process for us.
