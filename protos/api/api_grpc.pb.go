@@ -20,14 +20,17 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type APIClient interface {
-	// Creates user
+	// RegisterUser creates user
 	RegisterUser(ctx context.Context, in *user.RegisterRequest, opts ...grpc.CallOption) (*user.UserResponse, error)
+	// LoginUser logs in user
 	LoginUser(ctx context.Context, in *user.LoginRequest, opts ...grpc.CallOption) (*user.UserResponse, error)
-	// Creates project
+	// CreateProject creates project
 	CreateProject(ctx context.Context, in *project.CreateProjectRequest, opts ...grpc.CallOption) (*project.ProjectResponse, error)
-	// Creates task
+	// GetProject retrives a project
+	GetProject(ctx context.Context, in *project.GetProjectRequest, opts ...grpc.CallOption) (*project.ProjectResponse, error)
+	// CreateTask creates task
 	CreateTask(ctx context.Context, in *task.CreateTaskRequest, opts ...grpc.CallOption) (*task.TaskResponse, error)
-	// Updates task
+	// UpdateTask updates task
 	UpdateTask(ctx context.Context, in *task.UpdateTaskRequest, opts ...grpc.CallOption) (*task.TaskResponse, error)
 }
 
@@ -66,6 +69,15 @@ func (c *aPIClient) CreateProject(ctx context.Context, in *project.CreateProject
 	return out, nil
 }
 
+func (c *aPIClient) GetProject(ctx context.Context, in *project.GetProjectRequest, opts ...grpc.CallOption) (*project.ProjectResponse, error) {
+	out := new(project.ProjectResponse)
+	err := c.cc.Invoke(ctx, "/demo_api.API/GetProject", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *aPIClient) CreateTask(ctx context.Context, in *task.CreateTaskRequest, opts ...grpc.CallOption) (*task.TaskResponse, error) {
 	out := new(task.TaskResponse)
 	err := c.cc.Invoke(ctx, "/demo_api.API/CreateTask", in, out, opts...)
@@ -88,14 +100,17 @@ func (c *aPIClient) UpdateTask(ctx context.Context, in *task.UpdateTaskRequest, 
 // All implementations must embed UnimplementedAPIServer
 // for forward compatibility
 type APIServer interface {
-	// Creates user
+	// RegisterUser creates user
 	RegisterUser(context.Context, *user.RegisterRequest) (*user.UserResponse, error)
+	// LoginUser logs in user
 	LoginUser(context.Context, *user.LoginRequest) (*user.UserResponse, error)
-	// Creates project
+	// CreateProject creates project
 	CreateProject(context.Context, *project.CreateProjectRequest) (*project.ProjectResponse, error)
-	// Creates task
+	// GetProject retrives a project
+	GetProject(context.Context, *project.GetProjectRequest) (*project.ProjectResponse, error)
+	// CreateTask creates task
 	CreateTask(context.Context, *task.CreateTaskRequest) (*task.TaskResponse, error)
-	// Updates task
+	// UpdateTask updates task
 	UpdateTask(context.Context, *task.UpdateTaskRequest) (*task.TaskResponse, error)
 	mustEmbedUnimplementedAPIServer()
 }
@@ -112,6 +127,9 @@ func (UnimplementedAPIServer) LoginUser(context.Context, *user.LoginRequest) (*u
 }
 func (UnimplementedAPIServer) CreateProject(context.Context, *project.CreateProjectRequest) (*project.ProjectResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateProject not implemented")
+}
+func (UnimplementedAPIServer) GetProject(context.Context, *project.GetProjectRequest) (*project.ProjectResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetProject not implemented")
 }
 func (UnimplementedAPIServer) CreateTask(context.Context, *task.CreateTaskRequest) (*task.TaskResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateTask not implemented")
@@ -186,6 +204,24 @@ func _API_CreateProject_Handler(srv interface{}, ctx context.Context, dec func(i
 	return interceptor(ctx, in, info, handler)
 }
 
+func _API_GetProject_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(project.GetProjectRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(APIServer).GetProject(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/demo_api.API/GetProject",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(APIServer).GetProject(ctx, req.(*project.GetProjectRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _API_CreateTask_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(task.CreateTaskRequest)
 	if err := dec(in); err != nil {
@@ -237,6 +273,10 @@ var _API_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateProject",
 			Handler:    _API_CreateProject_Handler,
+		},
+		{
+			MethodName: "GetProject",
+			Handler:    _API_GetProject_Handler,
 		},
 		{
 			MethodName: "CreateTask",

@@ -10,7 +10,7 @@ import "project/project.proto";
 import "task/task.proto";
 
 service API {
-    // Creates user
+    // RegisterUser creates user
     rpc RegisterUser (demo_user.RegisterRequest) returns (demo_user.UserResponse) {
         option (google.api.http) = {
             post: "/v1/user/register"
@@ -18,6 +18,7 @@ service API {
         };
     }
 
+    // LoginUser logs in user
     rpc LoginUser (demo_user.LoginRequest) returns (demo_user.UserResponse) {
         option (google.api.http) = {
             post: "/v1/user/login"
@@ -25,7 +26,7 @@ service API {
         };
     }
 
-    // Creates project
+    // CreateProject creates project
     rpc CreateProject (demo_project.CreateProjectRequest) returns (demo_project.ProjectResponse) {
         option (google.api.http) = {
             post: "/v1/project/create"
@@ -33,7 +34,14 @@ service API {
         };
     }
 
-    // Creates task
+    // GetProject retrives a project
+    rpc GetProject (demo_project.GetProjectRequest) returns (demo_project.ProjectResponse) {
+        option (google.api.http) = {
+            get: "/v1/project/get/{project_id}"
+        };
+    }
+
+    // CreateTask creates task
     rpc CreateTask (demo_task.CreateTaskRequest) returns (demo_task.TaskResponse) {
         option (google.api.http) = {
             post: "/v1/task/create"
@@ -41,7 +49,7 @@ service API {
         };
     }
 
-    // Updates task
+    // UpdateTask updates task
     rpc UpdateTask (demo_task.UpdateTaskRequest) returns (demo_task.TaskResponse) {
         option (google.api.http) = {
             post: "/v1/task/update"
