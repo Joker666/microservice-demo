@@ -22,6 +22,7 @@ const _ = grpc.SupportPackageIsVersion7
 type APIClient interface {
 	// Creates user
 	RegisterUser(ctx context.Context, in *user.RegisterRequest, opts ...grpc.CallOption) (*user.UserResponse, error)
+	LoginUser(ctx context.Context, in *user.LoginRequest, opts ...grpc.CallOption) (*user.UserResponse, error)
 	// Creates project
 	CreateProject(ctx context.Context, in *project.CreateProjectRequest, opts ...grpc.CallOption) (*project.ProjectResponse, error)
 	// Creates task
@@ -41,6 +42,15 @@ func NewAPIClient(cc grpc.ClientConnInterface) APIClient {
 func (c *aPIClient) RegisterUser(ctx context.Context, in *user.RegisterRequest, opts ...grpc.CallOption) (*user.UserResponse, error) {
 	out := new(user.UserResponse)
 	err := c.cc.Invoke(ctx, "/demo_api.API/RegisterUser", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *aPIClient) LoginUser(ctx context.Context, in *user.LoginRequest, opts ...grpc.CallOption) (*user.UserResponse, error) {
+	out := new(user.UserResponse)
+	err := c.cc.Invoke(ctx, "/demo_api.API/LoginUser", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -67,7 +77,7 @@ func (c *aPIClient) CreateTask(ctx context.Context, in *task.CreateTaskRequest, 
 
 func (c *aPIClient) UpdateTask(ctx context.Context, in *task.UpdateTaskRequest, opts ...grpc.CallOption) (*task.TaskResponse, error) {
 	out := new(task.TaskResponse)
-	err := c.cc.Invoke(ctx, "/demo_api.API/updateTask", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/demo_api.API/UpdateTask", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -80,6 +90,7 @@ func (c *aPIClient) UpdateTask(ctx context.Context, in *task.UpdateTaskRequest, 
 type APIServer interface {
 	// Creates user
 	RegisterUser(context.Context, *user.RegisterRequest) (*user.UserResponse, error)
+	LoginUser(context.Context, *user.LoginRequest) (*user.UserResponse, error)
 	// Creates project
 	CreateProject(context.Context, *project.CreateProjectRequest) (*project.ProjectResponse, error)
 	// Creates task
@@ -95,6 +106,9 @@ type UnimplementedAPIServer struct {
 
 func (UnimplementedAPIServer) RegisterUser(context.Context, *user.RegisterRequest) (*user.UserResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RegisterUser not implemented")
+}
+func (UnimplementedAPIServer) LoginUser(context.Context, *user.LoginRequest) (*user.UserResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method LoginUser not implemented")
 }
 func (UnimplementedAPIServer) CreateProject(context.Context, *project.CreateProjectRequest) (*project.ProjectResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateProject not implemented")
@@ -132,6 +146,24 @@ func _API_RegisterUser_Handler(srv interface{}, ctx context.Context, dec func(in
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(APIServer).RegisterUser(ctx, req.(*user.RegisterRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _API_LoginUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(user.LoginRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(APIServer).LoginUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/demo_api.API/LoginUser",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(APIServer).LoginUser(ctx, req.(*user.LoginRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -182,7 +214,7 @@ func _API_UpdateTask_Handler(srv interface{}, ctx context.Context, dec func(inte
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/demo_api.API/updateTask",
+		FullMethod: "/demo_api.API/UpdateTask",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(APIServer).UpdateTask(ctx, req.(*task.UpdateTaskRequest))
@@ -199,6 +231,10 @@ var _API_serviceDesc = grpc.ServiceDesc{
 			Handler:    _API_RegisterUser_Handler,
 		},
 		{
+			MethodName: "LoginUser",
+			Handler:    _API_LoginUser_Handler,
+		},
+		{
 			MethodName: "CreateProject",
 			Handler:    _API_CreateProject_Handler,
 		},
@@ -207,7 +243,7 @@ var _API_serviceDesc = grpc.ServiceDesc{
 			Handler:    _API_CreateTask_Handler,
 		},
 		{
-			MethodName: "updateTask",
+			MethodName: "UpdateTask",
 			Handler:    _API_UpdateTask_Handler,
 		},
 	},

@@ -27,22 +27,36 @@ services:
             - mysql
             - user
 
+    task:
+        build:
+            context: ./taskService
+        image: microservice/demo/task
+        restart: "no"
+        environment:
+            - DB_URI=mysql+mysqldb://root:password@mysql:3306/microservice-project
+        ports:
+            - 8082:50053
+        depends_on:
+            - postgresql
+            - user
+            - project
+
     api:
         build:
             context: ./apiService
         image: microservice/demo/api
         restart: "no"
         environment:
-            - USER_HOST=user
-            - USER_PORT=50051
-            - PROJECT_HOST=project
-            - PROJECT_PORT=50052
+            - USER_ADDRESS=user:50051
+            - PROJECT_ADDRESS=project:50052
+            - TASK_ADDRESS=task:50053
         ports:
-            - 8082:50059
+            - 8083:50059
         command: serve
         depends_on:
             - user
             - project
+            - task
 
 
     api-gateway:
@@ -57,6 +71,18 @@ services:
         command: proxy
         depends_on:
             - api
+    
+    postgresql:
+        image: postgres
+        restart: "no"
+        ports:
+            - 5432:5432
+        environment:
+            POSTGRES_DB: microservice-task
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: password
+        volumes:
+            - postgresdb:/var/lib/postgresql/data/
 
     mysql:
         image: mysql:5.7
@@ -81,6 +107,7 @@ services:
             - mongodb_config:/data/configdb
 
 volumes:
+    postgresdb:
     mysqldb:
     mongodb:
     mongodb_config:

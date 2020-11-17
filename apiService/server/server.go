@@ -3,6 +3,7 @@ package server
 import (
 	"context"
 	"github.com/Joker666/microservice-demo/apiService/interceptor"
+	"github.com/Joker666/microservice-demo/protos/task"
 	"log"
 
 	pb "github.com/Joker666/microservice-demo/protos/api"
@@ -14,14 +15,16 @@ import (
 type Server struct {
 	userSvcClient    user.UserSvcClient
 	projectSvcClient project.ProjectSvcClient
+	taskSvcClient 	 task.TaskSvcClient
 	pb.UnimplementedAPIServer
 }
 
 // New returns new instance of Server
-func New(userServiceClient user.UserSvcClient, projectSvcClient project.ProjectSvcClient) *Server {
+func New(userServiceClient user.UserSvcClient, projectServiceClient project.ProjectSvcClient, taskServiceClient task.TaskSvcClient) *Server {
 	s := &Server{
 		userSvcClient:          userServiceClient,
-		projectSvcClient:       projectSvcClient,
+		projectSvcClient:       projectServiceClient,
+		taskSvcClient:			taskServiceClient,
 		UnimplementedAPIServer: pb.UnimplementedAPIServer{},
 	}
 	return s
@@ -42,4 +45,15 @@ func (s *Server) CreateProject(ctx context.Context, in *project.CreateProjectReq
 	}
 	in.UserId = userID
 	return s.projectSvcClient.CreateProject(ctx, in)
+}
+
+func (s *Server) CreateTask(ctx context.Context, in *task.CreateTaskRequest) (*task.TaskResponse, error) {
+	resp := &task.TaskResponse{}
+	userID, err := interceptor.GetUserID(ctx)
+	if err != nil {
+		log.Println("Api: CreateProject", "failed to get user ID", err.Error())
+		return resp, err
+	}
+	in.UserId = userID
+	return s.taskSvcClient.CreateTask(ctx, in)
 }

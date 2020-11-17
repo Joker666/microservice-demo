@@ -18,6 +18,13 @@ service API {
         };
     }
 
+    rpc LoginUser (demo_user.LoginRequest) returns (demo_user.UserResponse) {
+        option (google.api.http) = {
+            post: "/v1/user/login"
+            body: "*"
+        };
+    }
+
     // Creates project
     rpc CreateProject (demo_project.CreateProjectRequest) returns (demo_project.ProjectResponse) {
         option (google.api.http) = {
@@ -35,7 +42,7 @@ service API {
     }
 
     // Updates task
-    rpc updateTask (demo_task.UpdateTaskRequest) returns (demo_task.TaskResponse) {
+    rpc UpdateTask (demo_task.UpdateTaskRequest) returns (demo_task.TaskResponse) {
         option (google.api.http) = {
             post: "/v1/task/update"
             body: "*"

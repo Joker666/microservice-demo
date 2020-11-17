@@ -1,10 +1,11 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    google-protobuf (3.14.0-x86_64-linux)
+    dotenv (2.7.6)
+    google-protobuf (3.14.0)
     googleapis-common-protos-types (1.0.5)
       google-protobuf (~> 3.11)
-    grpc (1.32.0-x86_64-linux)
+    grpc (1.32.0)
       google-protobuf (~> 3.13)
       googleapis-common-protos-types (~> 1.0)
 
@@ -12,6 +13,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  dotenv
   grpc
 
 BUNDLED WITH

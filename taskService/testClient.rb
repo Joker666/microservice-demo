@@ -7,7 +7,7 @@ require './proto/task/task_services_pb'
 
 def main
     user = 'world'
-    hostname = ARGV.size > 1 ?  ARGV[1] : 'localhost:50054'
+    hostname = ARGV.size > 1 ?  ARGV[1] : '0.0.0.0:50053'
     stub = DemoTask::TaskSvc::Stub.new(hostname, :this_channel_is_insecure)
     begin
         message = stub.create_task(DemoTask::CreateTaskRequest.new(name: user)).name

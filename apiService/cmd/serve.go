@@ -5,6 +5,7 @@ import (
 	"github.com/Joker666/microservice-demo/apiService/server"
 	pb "github.com/Joker666/microservice-demo/protos/api"
 	"github.com/Joker666/microservice-demo/protos/project"
+	"github.com/Joker666/microservice-demo/protos/task"
 	"github.com/Joker666/microservice-demo/protos/user"
 	grpc_middleware "github.com/grpc-ecosystem/go-grpc-middleware"
 
@@ -40,7 +41,7 @@ func serve(cmd *cobra.Command, args []string) error {
 		log.Fatalf("failed to listen: %v", err)
 	}
 
-	userAddress := os.Getenv("USER_HOST") + ":" + os.Getenv("USER_PORT")
+	userAddress := os.Getenv("USER_ADDRESS")
 	log.Println("Connecting to user service on " + userAddress)
 	userConn, err := grpc.Dial(userAddress, grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
@@ -49,7 +50,7 @@ func serve(cmd *cobra.Command, args []string) error {
 	defer userConn.Close()
 	userSvcClient := user.NewUserSvcClient(userConn)
 
-	projectAddress := os.Getenv("PROJECT_HOST") + ":" + os.Getenv("PROJECT_PORT")
+	projectAddress := os.Getenv("PROJECT_ADDRESS")
 	log.Println("Connecting to project service on " + projectAddress)
 	projectConn, err := grpc.Dial(projectAddress, grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
@@ -58,11 +59,20 @@ func serve(cmd *cobra.Command, args []string) error {
 	defer projectConn.Close()
 	projectSvcClient := project.NewProjectSvcClient(projectConn)
 
+	taskAddress := os.Getenv("TASK_ADDRESS")
+	log.Println("Connecting to task service on " + taskAddress)
+	taskConn, err := grpc.Dial(taskAddress, grpc.WithInsecure(), grpc.WithBlock())
+	if err != nil {
+		log.Fatalf("did not connect: %v", err)
+	}
+	defer projectConn.Close()
+	taskSvcClient := task.NewTaskSvcClient(taskConn)
+
 	unaryInterceptors := []grpc.UnaryServerInterceptor{
 		interceptor.UnaryAuthenticate(userSvcClient),
 	}
 	s := grpc.NewServer(grpc.UnaryInterceptor(grpc_middleware.ChainUnaryServer(unaryInterceptors...)))
-	pb.RegisterAPIServer(s, server.New(userSvcClient, projectSvcClient))
+	pb.RegisterAPIServer(s, server.New(userSvcClient, projectSvcClient, taskSvcClient))
 
 	log.Println("Starting GRPC server at: " + port)
 	if err := s.Serve(lis); err != nil {
