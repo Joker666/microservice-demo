@@ -19,6 +19,7 @@ const _ = grpc.SupportPackageIsVersion7
 type ProjectSvcClient interface {
 	CreateProject(ctx context.Context, in *CreateProjectRequest, opts ...grpc.CallOption) (*ProjectResponse, error)
 	CreateTag(ctx context.Context, in *CreateTagRequest, opts ...grpc.CallOption) (*TagResponse, error)
+	GetProject(ctx context.Context, in *GetProjectRequest, opts ...grpc.CallOption) (*ProjectResponse, error)
 }
 
 type projectSvcClient struct {
@@ -47,12 +48,22 @@ func (c *projectSvcClient) CreateTag(ctx context.Context, in *CreateTagRequest, 
 	return out, nil
 }
 
+func (c *projectSvcClient) GetProject(ctx context.Context, in *GetProjectRequest, opts ...grpc.CallOption) (*ProjectResponse, error) {
+	out := new(ProjectResponse)
+	err := c.cc.Invoke(ctx, "/demo_project.ProjectSvc/getProject", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ProjectSvcServer is the server API for ProjectSvc service.
 // All implementations must embed UnimplementedProjectSvcServer
 // for forward compatibility
 type ProjectSvcServer interface {
 	CreateProject(context.Context, *CreateProjectRequest) (*ProjectResponse, error)
 	CreateTag(context.Context, *CreateTagRequest) (*TagResponse, error)
+	GetProject(context.Context, *GetProjectRequest) (*ProjectResponse, error)
 	mustEmbedUnimplementedProjectSvcServer()
 }
 
@@ -65,6 +76,9 @@ func (UnimplementedProjectSvcServer) CreateProject(context.Context, *CreateProje
 }
 func (UnimplementedProjectSvcServer) CreateTag(context.Context, *CreateTagRequest) (*TagResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateTag not implemented")
+}
+func (UnimplementedProjectSvcServer) GetProject(context.Context, *GetProjectRequest) (*ProjectResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetProject not implemented")
 }
 func (UnimplementedProjectSvcServer) mustEmbedUnimplementedProjectSvcServer() {}
 
@@ -115,6 +129,24 @@ func _ProjectSvc_CreateTag_Handler(srv interface{}, ctx context.Context, dec fun
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ProjectSvc_GetProject_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetProjectRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProjectSvcServer).GetProject(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/demo_project.ProjectSvc/getProject",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProjectSvcServer).GetProject(ctx, req.(*GetProjectRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _ProjectSvc_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "demo_project.ProjectSvc",
 	HandlerType: (*ProjectSvcServer)(nil),
@@ -126,6 +158,10 @@ var _ProjectSvc_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "createTag",
 			Handler:    _ProjectSvc_CreateTag_Handler,
+		},
+		{
+			MethodName: "getProject",
+			Handler:    _ProjectSvc_GetProject_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

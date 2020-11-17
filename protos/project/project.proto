@@ -7,6 +7,7 @@ option go_package = "github.com/Joker666/microservice-demo/protos/project";
 service ProjectSvc {
     rpc createProject (CreateProjectRequest) returns (ProjectResponse);
     rpc createTag (CreateTagRequest) returns (TagResponse);
+    rpc getProject(GetProjectRequest) returns (ProjectResponse);
 }
 
 message CreateProjectRequest {
@@ -20,9 +21,15 @@ message CreateTagRequest {
     string project_id = 3;
 }
 
+message GetProjectRequest {
+    string user_id = 1;
+    string project_id = 2;
+}
+
 message ProjectResponse {
     string id = 1;
     string name = 2;
+    repeated TagResponse tag = 3;
 }
 
 message TagResponse {

@@ -47,6 +47,7 @@ func (s *Server) CreateProject(ctx context.Context, in *project.CreateProjectReq
 	return s.projectSvcClient.CreateProject(ctx, in)
 }
 
+// CreateTask creates task
 func (s *Server) CreateTask(ctx context.Context, in *task.CreateTaskRequest) (*task.TaskResponse, error) {
 	resp := &task.TaskResponse{}
 	userID, err := interceptor.GetUserID(ctx)
@@ -56,4 +57,9 @@ func (s *Server) CreateTask(ctx context.Context, in *task.CreateTaskRequest) (*t
 	}
 	in.UserId = userID
 	return s.taskSvcClient.CreateTask(ctx, in)
+}
+
+// LoginUser directs to user service register method
+func (s *Server) LoginUser(ctx context.Context, in *user.LoginRequest) (*user.UserResponse, error) {
+	return s.userSvcClient.Login(ctx, in)
 }

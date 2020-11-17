@@ -10,7 +10,7 @@ from sqlalchemy.orm import sessionmaker
 
 import api
 import model
-import proto.service_pb2_grpc as service
+import proto.project_pb2_grpc as service
 
 load_dotenv(verbose=True)
 

@@ -19,6 +19,7 @@ const (
 func needAuthenticate(url string) bool {
 	safeUrls := []string{
 		"/demo_api.API/RegisterUser",
+		"/demo_api.API/LoginUser",
 	}
 
 	for _, u := range safeUrls {

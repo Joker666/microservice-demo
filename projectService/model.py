@@ -12,6 +12,9 @@ class Project(Base):
     user_id = Column(String(50))
     created_at = Column(Date)
 
+    def __repr__(self):
+        return "<Project(id='%s', name='%s', user_id='%s')>" % (self.id, self.name, self.user_id)
+
 
 class Tag(Base):
     __tablename__ = 'tags'
@@ -21,6 +24,9 @@ class Tag(Base):
     project_id = Column(Integer, ForeignKey('projects.id'))
     user_id = Column(String(50))
     created_at = Column(Date)
+
+    def __repr__(self):
+        return "<Tag(id='%s', name='%s', user_id='%s', project_id='%s')>" % (self.id, self.name, self.user_id, self.project_id)
 
 
 def create_tables():

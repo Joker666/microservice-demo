@@ -16,6 +16,7 @@ module DemoProject
 
       rpc :createProject, ::DemoProject::CreateProjectRequest, ::DemoProject::ProjectResponse
       rpc :createTag, ::DemoProject::CreateTagRequest, ::DemoProject::TagResponse
+      rpc :getProject, ::DemoProject::GetProjectRequest, ::DemoProject::ProjectResponse
     end
 
     Stub = Service.rpc_stub_class
