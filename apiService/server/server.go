@@ -63,3 +63,14 @@ func (s *Server) CreateTask(ctx context.Context, in *task.CreateTaskRequest) (*t
 func (s *Server) LoginUser(ctx context.Context, in *user.LoginRequest) (*user.UserResponse, error) {
 	return s.userSvcClient.Login(ctx, in)
 }
+
+func (s *Server) GetProject(ctx context.Context, in *project.GetProjectRequest) (*project.ProjectResponse, error) {
+	resp := &project.ProjectResponse{}
+	userID, err := interceptor.GetUserID(ctx)
+	if err != nil {
+		log.Println("Api: CreateProject", "failed to get user ID", err.Error())
+		return resp, err
+	}
+	in.UserId = userID
+	return s.projectSvcClient.GetProject(ctx,in)
+}

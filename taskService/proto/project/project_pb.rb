@@ -21,7 +21,7 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
     add_message "demo_project.ProjectResponse" do
       optional :id, :string, 1
       optional :name, :string, 2
-      repeated :tag, :message, 3, "demo_project.TagResponse"
+      repeated :tags, :message, 3, "demo_project.TagResponse"
     end
     add_message "demo_project.TagResponse" do
       optional :id, :string, 1

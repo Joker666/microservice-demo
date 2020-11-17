@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=b'Z4github.com/Joker666/microservice-demo/protos/project',
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\rproject.proto\x12\x0c\x64\x65mo_project\"5\n\x14\x43reateProjectRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\"E\n\x10\x43reateTagRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x12\n\nproject_id\x18\x03 \x01(\t\"8\n\x11GetProjectRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\x12\n\nproject_id\x18\x02 \x01(\t\"S\n\x0fProjectResponse\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12&\n\x03tag\x18\x03 \x03(\x0b\x32\x19.demo_project.TagResponse\";\n\x0bTagResponse\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x12\n\nproject_id\x18\x03 \x01(\t2\xf6\x01\n\nProjectSvc\x12R\n\rcreateProject\x12\".demo_project.CreateProjectRequest\x1a\x1d.demo_project.ProjectResponse\x12\x46\n\tcreateTag\x12\x1e.demo_project.CreateTagRequest\x1a\x19.demo_project.TagResponse\x12L\n\ngetProject\x12\x1f.demo_project.GetProjectRequest\x1a\x1d.demo_project.ProjectResponseB6Z4github.com/Joker666/microservice-demo/protos/projectb\x06proto3'
+  serialized_pb=b'\n\rproject.proto\x12\x0c\x64\x65mo_project\"5\n\x14\x43reateProjectRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\"E\n\x10\x43reateTagRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x12\n\nproject_id\x18\x03 \x01(\t\"8\n\x11GetProjectRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\x12\n\nproject_id\x18\x02 \x01(\t\"T\n\x0fProjectResponse\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\'\n\x04tags\x18\x03 \x03(\x0b\x32\x19.demo_project.TagResponse\";\n\x0bTagResponse\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x12\n\nproject_id\x18\x03 \x01(\t2\xf6\x01\n\nProjectSvc\x12R\n\rcreateProject\x12\".demo_project.CreateProjectRequest\x1a\x1d.demo_project.ProjectResponse\x12\x46\n\tcreateTag\x12\x1e.demo_project.CreateTagRequest\x1a\x19.demo_project.TagResponse\x12L\n\ngetProject\x12\x1f.demo_project.GetProjectRequest\x1a\x1d.demo_project.ProjectResponseB6Z4github.com/Joker666/microservice-demo/protos/projectb\x06proto3'
 )
 
 
@@ -172,7 +172,7 @@ _PROJECTRESPONSE = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='tag', full_name='demo_project.ProjectResponse.tag', index=2,
+      name='tags', full_name='demo_project.ProjectResponse.tags', index=2,
       number=3, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -191,7 +191,7 @@ _PROJECTRESPONSE = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=215,
-  serialized_end=298,
+  serialized_end=299,
 )
 
 
@@ -236,11 +236,11 @@ _TAGRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=300,
-  serialized_end=359,
+  serialized_start=301,
+  serialized_end=360,
 )
 
-_PROJECTRESPONSE.fields_by_name['tag'].message_type = _TAGRESPONSE
+_PROJECTRESPONSE.fields_by_name['tags'].message_type = _TAGRESPONSE
 DESCRIPTOR.message_types_by_name['CreateProjectRequest'] = _CREATEPROJECTREQUEST
 DESCRIPTOR.message_types_by_name['CreateTagRequest'] = _CREATETAGREQUEST
 DESCRIPTOR.message_types_by_name['GetProjectRequest'] = _GETPROJECTREQUEST
@@ -293,8 +293,8 @@ _PROJECTSVC = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=362,
-  serialized_end=608,
+  serialized_start=363,
+  serialized_end=609,
   methods=[
   _descriptor.MethodDescriptor(
     name='createProject',

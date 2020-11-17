@@ -34,5 +34,5 @@ class API(service.ProjectSvcServicer):
             tag_message = message.TagResponse(id=str(tag.id), name=tag.name, project_id=str(tag.project_id))
             list_tags_resp.append(tag_message)
 
-        project = message.ProjectResponse(id=str(db_project.id), name=db_project.name, tag=list_tags_resp)
+        project = message.ProjectResponse(id=str(db_project.id), name=db_project.name, tags=list_tags_resp)
         return project

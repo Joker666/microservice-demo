@@ -56,4 +56,11 @@ service API {
             body: "*"
         };
     }
+
+    // ListTasks lists task
+    rpc ListTasks (demo_task.ListTaskRequest) returns (demo_task.ListTaskResponse) {
+        option (google.api.http) = {
+            post: "/v1/project/{project_id}/task/list/{user_id}/{tag_id}"
+        };
+    }
 }

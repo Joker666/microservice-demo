@@ -7,6 +7,11 @@ require 'project/project_pb'
 require 'user/user_pb'
 Google::Protobuf::DescriptorPool.generated_pool.build do
   add_file("task/task.proto", :syntax => :proto3) do
+    add_message "demo_task.ListTaskRequest" do
+      optional :project_id, :string, 1
+      optional :tag_id, :string, 2
+      optional :user_id, :string, 3
+    end
     add_message "demo_task.CreateTaskRequest" do
       optional :user_id, :string, 1
       optional :name, :string, 2
@@ -20,6 +25,9 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       optional :tag_id, :string, 3
       optional :assigned_user_id, :string, 4
     end
+    add_message "demo_task.ListTaskResponse" do
+      repeated :tasks, :message, 1, "demo_task.TaskResponse"
+    end
     add_message "demo_task.TaskResponse" do
       optional :user_id, :string, 1
       optional :name, :string, 2
@@ -31,7 +39,9 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
 end
 
 module DemoTask
+  ListTaskRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("demo_task.ListTaskRequest").msgclass
   CreateTaskRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("demo_task.CreateTaskRequest").msgclass
   UpdateTaskRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("demo_task.UpdateTaskRequest").msgclass
+  ListTaskResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("demo_task.ListTaskResponse").msgclass
   TaskResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("demo_task.TaskResponse").msgclass
 end

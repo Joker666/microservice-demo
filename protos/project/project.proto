@@ -29,7 +29,7 @@ message GetProjectRequest {
 message ProjectResponse {
     string id = 1;
     string name = 2;
-    repeated TagResponse tag = 3;
+    repeated TagResponse tags = 3;
 }
 
 message TagResponse {
