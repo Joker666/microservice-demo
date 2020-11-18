@@ -1,7 +1,7 @@
 require('dotenv').config();
 const grpc = require('@grpc/grpc-js');
 const { MongoClient } = require("mongodb");
-const services = require('./proto/service_grpc_pb');
+const services = require('./proto/user_grpc_pb');
 const API = require("./api");
 
 // Mongo Connection
@@ -31,6 +31,7 @@ async function main() {
         register: api.register,
         login: api.login,
         verify: api.verify,
+        getUser: api.getUser,
     });
     let address = process.env.HOST + ":" + process.env.PORT;
     server.bindAsync(address, grpc.ServerCredentials.createInsecure(), () => {

@@ -17,6 +17,7 @@ module DemoUser
       rpc :register, ::DemoUser::RegisterRequest, ::DemoUser::UserResponse
       rpc :login, ::DemoUser::LoginRequest, ::DemoUser::UserResponse
       rpc :verify, ::DemoUser::VerifyRequest, ::DemoUser::VerifyResponse
+      rpc :getUser, ::DemoUser::GetUserRequest, ::DemoUser::VerifyResponse
     end
 
     Stub = Service.rpc_stub_class

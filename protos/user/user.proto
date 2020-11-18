@@ -8,10 +8,15 @@ service UserSvc {
     rpc register (RegisterRequest) returns (UserResponse);
     rpc login (LoginRequest) returns (UserResponse);
     rpc verify (VerifyRequest) returns (VerifyResponse);
+    rpc getUser (GetUserRequest) returns (VerifyResponse);
 }
 
 message VerifyRequest {
     string token = 1;
+}
+
+message GetUserRequest {
+    string user_id = 1;
 }
 
 message LoginRequest {

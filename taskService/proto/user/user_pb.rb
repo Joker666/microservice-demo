@@ -8,6 +8,9 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
     add_message "demo_user.VerifyRequest" do
       optional :token, :string, 1
     end
+    add_message "demo_user.GetUserRequest" do
+      optional :user_id, :string, 1
+    end
     add_message "demo_user.LoginRequest" do
       optional :email, :string, 1
       optional :password, :string, 2
@@ -33,6 +36,7 @@ end
 
 module DemoUser
   VerifyRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("demo_user.VerifyRequest").msgclass
+  GetUserRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("demo_user.GetUserRequest").msgclass
   LoginRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("demo_user.LoginRequest").msgclass
   RegisterRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("demo_user.RegisterRequest").msgclass
   UserResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("demo_user.UserResponse").msgclass

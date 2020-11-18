@@ -20,6 +20,7 @@ type UserSvcClient interface {
 	Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*UserResponse, error)
 	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*UserResponse, error)
 	Verify(ctx context.Context, in *VerifyRequest, opts ...grpc.CallOption) (*VerifyResponse, error)
+	GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*VerifyResponse, error)
 }
 
 type userSvcClient struct {
@@ -57,6 +58,15 @@ func (c *userSvcClient) Verify(ctx context.Context, in *VerifyRequest, opts ...g
 	return out, nil
 }
 
+func (c *userSvcClient) GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*VerifyResponse, error) {
+	out := new(VerifyResponse)
+	err := c.cc.Invoke(ctx, "/demo_user.UserSvc/getUser", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserSvcServer is the server API for UserSvc service.
 // All implementations must embed UnimplementedUserSvcServer
 // for forward compatibility
@@ -64,6 +74,7 @@ type UserSvcServer interface {
 	Register(context.Context, *RegisterRequest) (*UserResponse, error)
 	Login(context.Context, *LoginRequest) (*UserResponse, error)
 	Verify(context.Context, *VerifyRequest) (*VerifyResponse, error)
+	GetUser(context.Context, *GetUserRequest) (*VerifyResponse, error)
 	mustEmbedUnimplementedUserSvcServer()
 }
 
@@ -79,6 +90,9 @@ func (UnimplementedUserSvcServer) Login(context.Context, *LoginRequest) (*UserRe
 }
 func (UnimplementedUserSvcServer) Verify(context.Context, *VerifyRequest) (*VerifyResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Verify not implemented")
+}
+func (UnimplementedUserSvcServer) GetUser(context.Context, *GetUserRequest) (*VerifyResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUser not implemented")
 }
 func (UnimplementedUserSvcServer) mustEmbedUnimplementedUserSvcServer() {}
 
@@ -147,6 +161,24 @@ func _UserSvc_Verify_Handler(srv interface{}, ctx context.Context, dec func(inte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserSvc_GetUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserSvcServer).GetUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/demo_user.UserSvc/getUser",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserSvcServer).GetUser(ctx, req.(*GetUserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _UserSvc_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "demo_user.UserSvc",
 	HandlerType: (*UserSvcServer)(nil),
@@ -162,6 +194,10 @@ var _UserSvc_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "verify",
 			Handler:    _UserSvc_Verify_Handler,
+		},
+		{
+			MethodName: "getUser",
+			Handler:    _UserSvc_GetUser_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

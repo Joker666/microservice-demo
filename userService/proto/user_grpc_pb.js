@@ -4,6 +4,17 @@
 var grpc = require('@grpc/grpc-js');
 var user_pb = require('./user_pb.js');
 
+function serialize_demo_user_GetUserRequest(arg) {
+  if (!(arg instanceof user_pb.GetUserRequest)) {
+    throw new Error('Expected argument of type demo_user.GetUserRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_demo_user_GetUserRequest(buffer_arg) {
+  return user_pb.GetUserRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 function serialize_demo_user_LoginRequest(arg) {
   if (!(arg instanceof user_pb.LoginRequest)) {
     throw new Error('Expected argument of type demo_user.LoginRequest');
@@ -91,6 +102,17 @@ var UserSvcService = exports.UserSvcService = {
     responseType: user_pb.VerifyResponse,
     requestSerialize: serialize_demo_user_VerifyRequest,
     requestDeserialize: deserialize_demo_user_VerifyRequest,
+    responseSerialize: serialize_demo_user_VerifyResponse,
+    responseDeserialize: deserialize_demo_user_VerifyResponse,
+  },
+  getUser: {
+    path: '/demo_user.UserSvc/getUser',
+    requestStream: false,
+    responseStream: false,
+    requestType: user_pb.GetUserRequest,
+    responseType: user_pb.VerifyResponse,
+    requestSerialize: serialize_demo_user_GetUserRequest,
+    requestDeserialize: deserialize_demo_user_GetUserRequest,
     responseSerialize: serialize_demo_user_VerifyResponse,
     responseDeserialize: deserialize_demo_user_VerifyResponse,
   },

@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const auth = require("./auth");
-const messages = require('./proto/service_pb');
+const messages = require('./proto/user_pb');
+const ObjectId = require('mongodb').ObjectID;
 
 
 module.exports = class API {
@@ -61,6 +62,25 @@ module.exports = class API {
                     resp.setEmail(user.email);
                     callback(null, resp);
                 })
+            } else {
+                return callback({
+                    code: this.grpc.status.UNAUTHENTICATED,
+                    message: "No user found",
+                });
+            }
+        })
+    }
+
+    getUser = (call, callback) => {
+        const users = this.db.collection("users");
+        let resp = new messages.VerifyResponse();
+        let userId = ObjectId(call.request.getUserId());
+        users.findOne({ _id: userId}).then(user => {
+            if (user) {
+                resp.setId(user._id.toString());
+                resp.setName(user.name);
+                resp.setEmail(user.email);
+                callback(null, resp);
             } else {
                 return callback({
                     code: this.grpc.status.UNAUTHENTICATED,
