@@ -50,3 +50,9 @@ protoc -I . -I$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway/third_party/goo
     --grpc-gateway_opt logtostderr=true \
     --grpc-gateway_opt paths=source_relative \
     protos/api/api.proto
+
+protoc -I . -I . -I$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
+    -I protos \
+    --openapiv2_out . \
+    --openapiv2_opt logtostderr=true \
+    protos/api/api.proto
