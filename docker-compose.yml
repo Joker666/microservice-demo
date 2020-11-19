@@ -27,22 +27,22 @@ services:
             - mysql
             - user
 
-    # task:
-    #     build:
-    #         context: ./taskService
-    #     image: microservice/demo/task
-    #     restart: "no"
-    #     entrypoint: [./init]
-    #     environment:
-    #         - USER_ADDRESS=user:50051
-    #         - PROJECT_ADDRESS=project:50052
-    #         - DB_URI=postgres://postgres:password@postgresql:5432/microservice-task
-    #     ports:
-    #         - 8082:50053
-    #     depends_on:
-    #         - postgresql
-    #         - user
-    #         - project
+    task:
+        build:
+            context: ./taskService
+        image: microservice/demo/task
+        restart: "no"
+        entrypoint: [./init]
+        environment:
+            - USER_ADDRESS=user:50051
+            - PROJECT_ADDRESS=project:50052
+            - DB_URI=postgres://postgres:password@postgresql:5432/microservice-task
+        ports:
+            - 8082:50053
+        depends_on:
+            - postgresql
+            - user
+            - project
 
     api:
         build:
@@ -59,7 +59,7 @@ services:
         depends_on:
             - user
             - project
-            # - task
+            - task
 
 
     api-gateway:

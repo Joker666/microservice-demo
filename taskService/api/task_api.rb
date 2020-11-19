@@ -19,7 +19,7 @@ class TaskApi < DemoTask::TaskSvc::Service
         user = @user_service.get_user(get_user_req)
         assigned_user = user
         assigned_user_id = user.id
-        if !assigned_user_id.nil? && !assigned_user_id.empty?
+        if !create_task_req.assigned_user_id.nil? && !create_task_req.assigned_user_id.empty?
             get_assign_user_req = DemoUser::GetUserRequest.new(user_id: create_task_req.assigned_user_id)
             assigned_user = @user_service.get_user(get_assign_user_req)
             assigned_user_id = assigned_user.id

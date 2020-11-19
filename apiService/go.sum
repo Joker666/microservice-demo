@@ -61,6 +61,8 @@ github.com/Joker666/microservice-demo/protos v0.0.0-20201117153311-4c8d1081b03b 
 github.com/Joker666/microservice-demo/protos v0.0.0-20201117153311-4c8d1081b03b/go.mod h1:EPO+bwrGgPQAUAmhsOZnVwGZiFoS8RGnVcndIOj1rFk=
 github.com/Joker666/microservice-demo/protos v0.0.0-20201118115927-22b833095608 h1:fo6eMMmHz+kkVJMRcEZx18EFasmqiVMDSeSyj+DsU+I=
 github.com/Joker666/microservice-demo/protos v0.0.0-20201118115927-22b833095608/go.mod h1:EPO+bwrGgPQAUAmhsOZnVwGZiFoS8RGnVcndIOj1rFk=
+github.com/Joker666/microservice-demo/protos v0.0.0-20201119144551-58df2478d811 h1:gN9EJoU4wSKU9TlIN4w0GU9UHeQFB+dRRDLhNmKNOOc=
+github.com/Joker666/microservice-demo/protos v0.0.0-20201119144551-58df2478d811/go.mod h1:EPO+bwrGgPQAUAmhsOZnVwGZiFoS8RGnVcndIOj1rFk=
 github.com/OneOfOne/xxhash v1.2.2/go.mod h1:HSdplMjZKSmBqAxg5vPj2TmRDmfkzw+cTzAElWljhcU=
 github.com/alecthomas/template v0.0.0-20160405071501-a0175ee3bccc/go.mod h1:LOuyumcjzFXgccqObfd/Ljyb9UuFJ6TxHnclSeseNhc=
 github.com/alecthomas/units v0.0.0-20151022065526-2efee857e7cf/go.mod h1:ybxpYRFXyAe+OPACYpWeL0wqObRcbAqCMya13uyzqw0=
