@@ -2,9 +2,10 @@ package server
 
 import (
 	"context"
+	"log"
+
 	"github.com/Joker666/microservice-demo/apiService/interceptor"
 	"github.com/Joker666/microservice-demo/protos/task"
-	"log"
 
 	pb "github.com/Joker666/microservice-demo/protos/api"
 	"github.com/Joker666/microservice-demo/protos/project"
@@ -15,7 +16,7 @@ import (
 type Server struct {
 	userSvcClient    user.UserSvcClient
 	projectSvcClient project.ProjectSvcClient
-	taskSvcClient 	 task.TaskSvcClient
+	taskSvcClient    task.TaskSvcClient
 	pb.UnimplementedAPIServer
 }
 
@@ -24,7 +25,7 @@ func New(userServiceClient user.UserSvcClient, projectServiceClient project.Proj
 	s := &Server{
 		userSvcClient:          userServiceClient,
 		projectSvcClient:       projectServiceClient,
-		taskSvcClient:			taskServiceClient,
+		taskSvcClient:          taskServiceClient,
 		UnimplementedAPIServer: pb.UnimplementedAPIServer{},
 	}
 	return s
@@ -64,6 +65,7 @@ func (s *Server) LoginUser(ctx context.Context, in *user.LoginRequest) (*user.Us
 	return s.userSvcClient.Login(ctx, in)
 }
 
+// GetProject gets detail about projects
 func (s *Server) GetProject(ctx context.Context, in *project.GetProjectRequest) (*project.ProjectResponse, error) {
 	resp := &project.ProjectResponse{}
 	userID, err := interceptor.GetUserID(ctx)
@@ -72,5 +74,5 @@ func (s *Server) GetProject(ctx context.Context, in *project.GetProjectRequest) 
 		return resp, err
 	}
 	in.UserId = userID
-	return s.projectSvcClient.GetProject(ctx,in)
+	return s.projectSvcClient.GetProject(ctx, in)
 }

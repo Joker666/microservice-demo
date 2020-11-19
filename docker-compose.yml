@@ -33,7 +33,9 @@ services:
         image: microservice/demo/task
         restart: "no"
         environment:
-            - DB_URI=mysql+mysqldb://root:password@mysql:3306/microservice-project
+            - USER_ADDRESS=user:50051
+            - PROJECT_ADDRESS=project:50052
+            - DB_URI=postgresql://postgres:password@localhost:5432/microservice-task
         ports:
             - 8082:50053
         depends_on:

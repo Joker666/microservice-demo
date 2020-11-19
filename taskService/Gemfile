@@ -6,3 +6,7 @@ git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
 
 gem 'grpc'
 gem 'dotenv'
+gem 'pg'
+gem 'rake'
+gem 'rom'
+gem 'rom-sql'

@@ -1,0 +1,10 @@
+require 'rom'
+require 'rom/sql/rake_task'
+require 'dotenv/load'
+
+namespace :db do
+    task :setup do
+        configuration = ROM::Configuration.new(:sql, ENV['DB_URI'])
+        ROM::SQL::RakeSupport.env = configuration
+    end
+end
