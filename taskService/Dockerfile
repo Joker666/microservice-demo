@@ -11,4 +11,3 @@ RUN bundle install
 COPY . .
 
 EXPOSE 50053
-CMD [ "ruby", "server.rb" ]

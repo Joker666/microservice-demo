@@ -29,11 +29,12 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       repeated :tasks, :message, 1, "demo_task.TaskResponse"
     end
     add_message "demo_task.TaskResponse" do
-      optional :user_id, :string, 1
-      optional :name, :string, 2
-      optional :project, :message, 3, "demo_project.ProjectResponse"
-      optional :tag, :message, 4, "demo_project.TagResponse"
-      optional :assigned_user, :message, 5, "demo_user.UserResponse"
+      optional :id, :string, 1
+      optional :user_id, :string, 2
+      optional :name, :string, 3
+      optional :project, :message, 4, "demo_project.ProjectResponse"
+      optional :tag, :message, 5, "demo_project.TagResponse"
+      optional :assigned_user, :message, 6, "demo_user.VerifyResponse"
     end
   end
 end

@@ -39,9 +39,10 @@ message ListTaskResponse {
 }
 
 message TaskResponse {
-    string user_id = 1;
-    string name = 2;
-    demo_project.ProjectResponse project = 3;
-    demo_project.TagResponse tag = 4;
-    demo_user.UserResponse assigned_user = 5;
+    string id = 1;
+    string user_id = 2;
+    string name = 3;
+    demo_project.ProjectResponse project = 4;
+    demo_project.TagResponse tag = 5;
+    demo_user.VerifyResponse assigned_user = 6;
 }

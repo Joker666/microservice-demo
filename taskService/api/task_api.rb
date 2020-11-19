@@ -4,7 +4,8 @@ require_relative '../proto/user/user_services_pb'
 
 # TaskApi handles task api requests
 class TaskApi < DemoTask::TaskSvc::Service
-    def initialize(project_svc_client, user_svc_client)
+    def initialize(db_container, project_svc_client, user_svc_client)
+        @db_container = db_container
         @project_service = project_svc_client
         @user_service = user_svc_client
     end
@@ -16,8 +17,24 @@ class TaskApi < DemoTask::TaskSvc::Service
 
         get_user_req = DemoUser::GetUserRequest.new(user_id: create_task_req.user_id)
         user = @user_service.get_user(get_user_req)
-        p user.id
+        assigned_user = user
+        assigned_user_id = user.id
+        if !assigned_user_id.nil? && !assigned_user_id.empty?
+            get_assign_user_req = DemoUser::GetUserRequest.new(user_id: create_task_req.assigned_user_id)
+            assigned_user = @user_service.get_user(get_assign_user_req)
+            assigned_user_id = assigned_user.id
+        end
 
-        DemoTask::TaskResponse.new(name: "Hello #{project.name}")
+        create_task = @db_container.relations[:tasks].command(:create)
+        task = create_task.call(name: create_task_req.name,
+                         user_id: user.id,
+                         project_id: project.id,
+                         tag_id: create_task_req.tag_id,
+                         assigned_user_id: assigned_user_id,
+                         created_at: Time.now,
+                         updated_at: Time.now)
+
+        DemoTask::TaskResponse.new(id: task[:id].to_s, name: task[:name], user_id: user.id,
+                                   project: project, assigned_user: assigned_user)
     end
 end

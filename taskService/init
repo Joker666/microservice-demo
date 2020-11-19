@@ -1,0 +1,7 @@
+#!/bin/bash
+set -e
+
+rake db:migrate
+ruby server.rb
+
+exec "$@"
