@@ -19,7 +19,7 @@ const _ = grpc.SupportPackageIsVersion7
 type TaskSvcClient interface {
 	CreateTask(ctx context.Context, in *CreateTaskRequest, opts ...grpc.CallOption) (*TaskResponse, error)
 	UpdateTask(ctx context.Context, in *UpdateTaskRequest, opts ...grpc.CallOption) (*TaskResponse, error)
-	ListTasks(ctx context.Context, in *ListTasksRequest, opts ...grpc.CallOption) (*ListTaskResponse, error)
+	ListTasks(ctx context.Context, in *ListTasksRequest, opts ...grpc.CallOption) (*ListTasksResponse, error)
 }
 
 type taskSvcClient struct {
@@ -48,8 +48,8 @@ func (c *taskSvcClient) UpdateTask(ctx context.Context, in *UpdateTaskRequest, o
 	return out, nil
 }
 
-func (c *taskSvcClient) ListTasks(ctx context.Context, in *ListTasksRequest, opts ...grpc.CallOption) (*ListTaskResponse, error) {
-	out := new(ListTaskResponse)
+func (c *taskSvcClient) ListTasks(ctx context.Context, in *ListTasksRequest, opts ...grpc.CallOption) (*ListTasksResponse, error) {
+	out := new(ListTasksResponse)
 	err := c.cc.Invoke(ctx, "/demo_task.TaskSvc/listTasks", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -63,7 +63,7 @@ func (c *taskSvcClient) ListTasks(ctx context.Context, in *ListTasksRequest, opt
 type TaskSvcServer interface {
 	CreateTask(context.Context, *CreateTaskRequest) (*TaskResponse, error)
 	UpdateTask(context.Context, *UpdateTaskRequest) (*TaskResponse, error)
-	ListTasks(context.Context, *ListTasksRequest) (*ListTaskResponse, error)
+	ListTasks(context.Context, *ListTasksRequest) (*ListTasksResponse, error)
 	mustEmbedUnimplementedTaskSvcServer()
 }
 
@@ -77,7 +77,7 @@ func (UnimplementedTaskSvcServer) CreateTask(context.Context, *CreateTaskRequest
 func (UnimplementedTaskSvcServer) UpdateTask(context.Context, *UpdateTaskRequest) (*TaskResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateTask not implemented")
 }
-func (UnimplementedTaskSvcServer) ListTasks(context.Context, *ListTasksRequest) (*ListTaskResponse, error) {
+func (UnimplementedTaskSvcServer) ListTasks(context.Context, *ListTasksRequest) (*ListTasksResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListTasks not implemented")
 }
 func (UnimplementedTaskSvcServer) mustEmbedUnimplementedTaskSvcServer() {}

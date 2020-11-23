@@ -35,6 +35,7 @@ class TaskApi < DemoTask::TaskSvc::Service
                          updated_at: Time.now)
 
         DemoTask::TaskResponse.new(id: task[:id].to_s, name: task[:name], user_id: user.id,
+                                   assigned_user_id: task[:assigned_user_id], project_id: task[:project_id],
                                    project: project, assigned_user: assigned_user)
     end
 

@@ -10,7 +10,7 @@ import "user/user.proto";
 service TaskSvc {
     rpc createTask (CreateTaskRequest) returns (TaskResponse);
     rpc updateTask (UpdateTaskRequest) returns (TaskResponse);
-    rpc listTasks (ListTasksRequest) returns (ListTaskResponse);
+    rpc listTasks (ListTasksRequest) returns (ListTasksResponse);
 }
 
 message ListTasksRequest {
@@ -34,7 +34,7 @@ message UpdateTaskRequest {
     string assigned_user_id = 4;
 }
 
-message ListTaskResponse {
+message ListTasksResponse {
     repeated TaskResponse tasks = 1;
 }
 

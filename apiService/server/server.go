@@ -76,3 +76,7 @@ func (s *Server) GetProject(ctx context.Context, in *project.GetProjectRequest) 
 	in.UserId = userID
 	return s.projectSvcClient.GetProject(ctx, in)
 }
+
+func (s *Server) ListTasks(ctx context.Context, in *task.ListTasksRequest) (*task.ListTasksResponse, error) {
+
+}

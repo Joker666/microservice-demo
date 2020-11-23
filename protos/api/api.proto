@@ -58,7 +58,7 @@ service API {
     }
 
     // ListTasks lists task
-    rpc ListTasks (demo_task.ListTasksRequest) returns (demo_task.ListTaskResponse) {
+    rpc ListTasks (demo_task.ListTasksRequest) returns (demo_task.ListTasksResponse) {
         option (google.api.http) = {
             post: "/v1/project/{project_id}/task/list/{assigned_user_id}/{tag_id}"
         };

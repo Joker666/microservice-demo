@@ -25,7 +25,7 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       optional :tag_id, :string, 3
       optional :assigned_user_id, :string, 4
     end
-    add_message "demo_task.ListTaskResponse" do
+    add_message "demo_task.ListTasksResponse" do
       repeated :tasks, :message, 1, "demo_task.TaskResponse"
     end
     add_message "demo_task.TaskResponse" do
@@ -46,6 +46,6 @@ module DemoTask
   ListTasksRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("demo_task.ListTasksRequest").msgclass
   CreateTaskRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("demo_task.CreateTaskRequest").msgclass
   UpdateTaskRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("demo_task.UpdateTaskRequest").msgclass
-  ListTaskResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("demo_task.ListTaskResponse").msgclass
+  ListTasksResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("demo_task.ListTasksResponse").msgclass
   TaskResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("demo_task.TaskResponse").msgclass
 end

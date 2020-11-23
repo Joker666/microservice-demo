@@ -89,7 +89,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/demo_taskListTaskResponse"
+              "$ref": "#/definitions/demo_taskListTasksResponse"
             }
           },
           "default": {
@@ -320,7 +320,7 @@
         }
       }
     },
-    "demo_taskListTaskResponse": {
+    "demo_taskListTasksResponse": {
       "type": "object",
       "properties": {
         "tasks": {
