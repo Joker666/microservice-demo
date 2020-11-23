@@ -44,7 +44,9 @@ func proxy(cmd *cobra.Command, args []string) error {
 	}
 	mux.Handle("/", g)
 
-	mux.HandleFunc("/swagger", serveSwagger)
+	mux.HandleFunc("/swagger.json", serveSwagger)
+	fs := http.FileServer(http.Dir("www/swagger-ui"))
+	mux.Handle("/swagger-ui/", http.StripPrefix("/swagger-ui", fs))
 
 	proxyPort := ":" + os.Getenv("PROXY_PORT")
 	log.Println("Starting proxy server at " + proxyPort)
