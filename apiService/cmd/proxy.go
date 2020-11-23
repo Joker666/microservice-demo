@@ -43,6 +43,10 @@ func proxy(cmd *cobra.Command, args []string) error {
 	// Register gRPC server endpoint
 	// Note: Make sure the gRPC server is running properly and accessible
 	mux := runtime.NewServeMux()
+	err = mux.HandlePath(http.MethodGet, "/swagger", serveSwagger)
+	if err != nil {
+		return err
+	}
 	opts := []grpc.DialOption{grpc.WithInsecure()}
 	err = gw.RegisterAPIHandlerFromEndpoint(ctx, mux, *grpcServerEndpoint, opts)
 	if err != nil {
@@ -52,4 +56,8 @@ func proxy(cmd *cobra.Command, args []string) error {
 	log.Println("Starting proxy server at " + proxyPort)
 	// Start HTTP server (and proxy calls to gRPC server endpoint)
 	return http.ListenAndServe(proxyPort, mux)
+}
+
+func serveSwagger(w http.ResponseWriter, r *http.Request, pathParams map[string]string) {
+	http.ServeFile(w, r, "www/api.swagger.json")
 }
