@@ -59,6 +59,6 @@ class TaskApi < DemoTask::TaskSvc::Service
                                            assigned_user_id: task[:assigned_user_id], tag_id: task[:tag_id])
             task_resp.append(t)
         end
-        DemoTask::ListTaskResponse.new(tasks: task_resp)
+        DemoTask::ListTasksResponse.new(tasks: task_resp)
     end
 end
