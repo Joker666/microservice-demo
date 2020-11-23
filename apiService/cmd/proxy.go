@@ -35,29 +35,35 @@ func proxy(cmd *cobra.Command, args []string) error {
 		log.Fatal("Error loading .env file")
 	}
 
-	grpcServerAddress := os.Getenv("HOST") + ":" + os.Getenv("PORT")
-	proxyPort := ":" + os.Getenv("PROXY_PORT")
-
-	grpcServerEndpoint := flag.String("grpc-server-endpoint",  grpcServerAddress, "gRPC server endpoint")
-
 	// Register gRPC server endpoint
 	// Note: Make sure the gRPC server is running properly and accessible
-	mux := runtime.NewServeMux()
-	err = mux.HandlePath(http.MethodGet, "/swagger", serveSwagger)
+	mux := http.NewServeMux()
+	g, err := newGateway(ctx)
 	if err != nil {
 		return err
 	}
-	opts := []grpc.DialOption{grpc.WithInsecure()}
-	err = gw.RegisterAPIHandlerFromEndpoint(ctx, mux, *grpcServerEndpoint, opts)
-	if err != nil {
-		return err
-	}
+	mux.Handle("/", g)
 
+	mux.HandleFunc("/swagger", serveSwagger)
+
+	proxyPort := ":" + os.Getenv("PROXY_PORT")
 	log.Println("Starting proxy server at " + proxyPort)
 	// Start HTTP server (and proxy calls to gRPC server endpoint)
 	return http.ListenAndServe(proxyPort, mux)
 }
 
-func serveSwagger(w http.ResponseWriter, r *http.Request, pathParams map[string]string) {
+func newGateway(ctx context.Context) (http.Handler, error) {
+	grpcServerAddress := os.Getenv("HOST") + ":" + os.Getenv("PORT")
+	grpcServerEndpoint := flag.String("grpc-server-endpoint",  grpcServerAddress, "gRPC server endpoint")
+	mux := runtime.NewServeMux()
+	opts := []grpc.DialOption{grpc.WithInsecure()}
+	err := gw.RegisterAPIHandlerFromEndpoint(ctx, mux, *grpcServerEndpoint, opts)
+	if err != nil {
+		return nil, err
+	}
+	return mux, nil
+}
+
+func serveSwagger(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "www/api.swagger.json")
 }
