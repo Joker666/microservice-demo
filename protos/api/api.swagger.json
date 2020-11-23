@@ -81,8 +81,94 @@
         ]
       }
     },
+    "/v1/project/{projectId}/task/list": {
+      "get": {
+        "summary": "ListTasks lists task",
+        "operationId": "API_ListTasks2",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/demo_taskListTasksResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "tagId",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "assignedUserId",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "API"
+        ]
+      }
+    },
+    "/v1/project/{projectId}/task/list/{assignedUserId}": {
+      "get": {
+        "summary": "ListTasks lists task",
+        "operationId": "API_ListTasks3",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/demo_taskListTasksResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "assignedUserId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "tagId",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "API"
+        ]
+      }
+    },
     "/v1/project/{projectId}/task/list/{assignedUserId}/{tagId}": {
-      "post": {
+      "get": {
         "summary": "ListTasks lists task",
         "operationId": "API_ListTasks",
         "responses": {
