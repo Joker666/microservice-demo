@@ -33,7 +33,7 @@ type APIClient interface {
 	// UpdateTask updates task
 	UpdateTask(ctx context.Context, in *task.UpdateTaskRequest, opts ...grpc.CallOption) (*task.TaskResponse, error)
 	// ListTasks lists task
-	ListTasks(ctx context.Context, in *task.ListTaskRequest, opts ...grpc.CallOption) (*task.ListTaskResponse, error)
+	ListTasks(ctx context.Context, in *task.ListTasksRequest, opts ...grpc.CallOption) (*task.ListTaskResponse, error)
 }
 
 type aPIClient struct {
@@ -98,7 +98,7 @@ func (c *aPIClient) UpdateTask(ctx context.Context, in *task.UpdateTaskRequest, 
 	return out, nil
 }
 
-func (c *aPIClient) ListTasks(ctx context.Context, in *task.ListTaskRequest, opts ...grpc.CallOption) (*task.ListTaskResponse, error) {
+func (c *aPIClient) ListTasks(ctx context.Context, in *task.ListTasksRequest, opts ...grpc.CallOption) (*task.ListTaskResponse, error) {
 	out := new(task.ListTaskResponse)
 	err := c.cc.Invoke(ctx, "/demo_api.API/ListTasks", in, out, opts...)
 	if err != nil {
@@ -124,7 +124,7 @@ type APIServer interface {
 	// UpdateTask updates task
 	UpdateTask(context.Context, *task.UpdateTaskRequest) (*task.TaskResponse, error)
 	// ListTasks lists task
-	ListTasks(context.Context, *task.ListTaskRequest) (*task.ListTaskResponse, error)
+	ListTasks(context.Context, *task.ListTasksRequest) (*task.ListTaskResponse, error)
 	mustEmbedUnimplementedAPIServer()
 }
 
@@ -150,7 +150,7 @@ func (UnimplementedAPIServer) CreateTask(context.Context, *task.CreateTaskReques
 func (UnimplementedAPIServer) UpdateTask(context.Context, *task.UpdateTaskRequest) (*task.TaskResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateTask not implemented")
 }
-func (UnimplementedAPIServer) ListTasks(context.Context, *task.ListTaskRequest) (*task.ListTaskResponse, error) {
+func (UnimplementedAPIServer) ListTasks(context.Context, *task.ListTasksRequest) (*task.ListTaskResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListTasks not implemented")
 }
 func (UnimplementedAPIServer) mustEmbedUnimplementedAPIServer() {}
@@ -275,7 +275,7 @@ func _API_UpdateTask_Handler(srv interface{}, ctx context.Context, dec func(inte
 }
 
 func _API_ListTasks_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(task.ListTaskRequest)
+	in := new(task.ListTasksRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -287,7 +287,7 @@ func _API_ListTasks_Handler(srv interface{}, ctx context.Context, dec func(inter
 		FullMethod: "/demo_api.API/ListTasks",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(APIServer).ListTasks(ctx, req.(*task.ListTaskRequest))
+		return srv.(APIServer).ListTasks(ctx, req.(*task.ListTasksRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }

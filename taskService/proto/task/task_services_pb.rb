@@ -16,7 +16,7 @@ module DemoTask
 
       rpc :createTask, ::DemoTask::CreateTaskRequest, ::DemoTask::TaskResponse
       rpc :updateTask, ::DemoTask::UpdateTaskRequest, ::DemoTask::TaskResponse
-      rpc :listTask, ::DemoTask::ListTaskRequest, ::DemoTask::ListTaskResponse
+      rpc :listTasks, ::DemoTask::ListTasksRequest, ::DemoTask::ListTaskResponse
     end
 
     Stub = Service.rpc_stub_class

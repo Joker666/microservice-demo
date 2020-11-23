@@ -275,7 +275,7 @@ func local_request_API_UpdateTask_0(ctx context.Context, marshaler runtime.Marsh
 }
 
 func request_API_ListTasks_0(ctx context.Context, marshaler runtime.Marshaler, client APIClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq task.ListTaskRequest
+	var protoReq task.ListTasksRequest
 	var metadata runtime.ServerMetadata
 
 	var (
@@ -295,14 +295,14 @@ func request_API_ListTasks_0(ctx context.Context, marshaler runtime.Marshaler, c
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "project_id", err)
 	}
 
-	val, ok = pathParams["user_id"]
+	val, ok = pathParams["assigned_user_id"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "user_id")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "assigned_user_id")
 	}
 
-	protoReq.UserId, err = runtime.String(val)
+	protoReq.AssignedUserId, err = runtime.String(val)
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "user_id", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "assigned_user_id", err)
 	}
 
 	val, ok = pathParams["tag_id"]
@@ -321,7 +321,7 @@ func request_API_ListTasks_0(ctx context.Context, marshaler runtime.Marshaler, c
 }
 
 func local_request_API_ListTasks_0(ctx context.Context, marshaler runtime.Marshaler, server APIServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq task.ListTaskRequest
+	var protoReq task.ListTasksRequest
 	var metadata runtime.ServerMetadata
 
 	var (
@@ -341,14 +341,14 @@ func local_request_API_ListTasks_0(ctx context.Context, marshaler runtime.Marsha
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "project_id", err)
 	}
 
-	val, ok = pathParams["user_id"]
+	val, ok = pathParams["assigned_user_id"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "user_id")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "assigned_user_id")
 	}
 
-	protoReq.UserId, err = runtime.String(val)
+	protoReq.AssignedUserId, err = runtime.String(val)
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "user_id", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "assigned_user_id", err)
 	}
 
 	val, ok = pathParams["tag_id"]
@@ -730,7 +730,7 @@ var (
 
 	pattern_API_UpdateTask_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v1", "task", "update"}, ""))
 
-	pattern_API_ListTasks_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3, 2, 4, 1, 0, 4, 1, 5, 5, 1, 0, 4, 1, 5, 6}, []string{"v1", "project", "project_id", "task", "list", "user_id", "tag_id"}, ""))
+	pattern_API_ListTasks_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3, 2, 4, 1, 0, 4, 1, 5, 5, 1, 0, 4, 1, 5, 6}, []string{"v1", "project", "project_id", "task", "list", "assigned_user_id", "tag_id"}, ""))
 )
 
 var (

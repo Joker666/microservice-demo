@@ -81,7 +81,7 @@
         ]
       }
     },
-    "/v1/project/{projectId}/task/list/{userId}/{tagId}": {
+    "/v1/project/{projectId}/task/list/{assignedUserId}/{tagId}": {
       "post": {
         "summary": "ListTasks lists task",
         "operationId": "API_ListTasks",
@@ -107,7 +107,7 @@
             "type": "string"
           },
           {
-            "name": "userId",
+            "name": "assignedUserId",
             "in": "path",
             "required": true,
             "type": "string"
@@ -341,6 +341,15 @@
           "type": "string"
         },
         "name": {
+          "type": "string"
+        },
+        "projectId": {
+          "type": "string"
+        },
+        "tagId": {
+          "type": "string"
+        },
+        "assignedUserId": {
           "type": "string"
         },
         "project": {

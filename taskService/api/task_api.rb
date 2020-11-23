@@ -37,4 +37,27 @@ class TaskApi < DemoTask::TaskSvc::Service
         DemoTask::TaskResponse.new(id: task[:id].to_s, name: task[:name], user_id: user.id,
                                    project: project, assigned_user: assigned_user)
     end
+
+    def list_tasks(list_tasks_req, _unused_call)
+        q = Hash.new
+        unless list_tasks_req.assigned_user_id.empty?
+            q[:assigned_user_id] = list_tasks_req.assigned_user_id
+        end
+        unless list_tasks_req.project_id.empty?
+            q[:project_id] = list_tasks_req.project_id
+        end
+        unless list_tasks_req.tag_id.empty?
+            q[:tag_id] = list_tasks_req.tag_id
+        end
+        tasks_relation = @db_container.relations[:tasks].where(q)
+
+        task_resp = []
+        tasks_relation.each do |task|
+            t = DemoTask::TaskResponse.new(id: task[:id].to_s, name: task[:name],
+                                           user_id: task[:user_id], project_id: task[:project_id],
+                                           assigned_user_id: task[:assigned_user_id], tag_id: task[:tag_id])
+            task_resp.append(t)
+        end
+        DemoTask::ListTaskResponse.new(tasks: task_resp)
+    end
 end

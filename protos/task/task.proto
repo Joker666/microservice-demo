@@ -10,13 +10,13 @@ import "user/user.proto";
 service TaskSvc {
     rpc createTask (CreateTaskRequest) returns (TaskResponse);
     rpc updateTask (UpdateTaskRequest) returns (TaskResponse);
-    rpc listTask (ListTaskRequest) returns (ListTaskResponse);
+    rpc listTasks (ListTasksRequest) returns (ListTaskResponse);
 }
 
-message ListTaskRequest {
+message ListTasksRequest {
     string project_id = 1;
     string tag_id = 2;
-    string user_id = 3;
+    string assigned_user_id = 3;
 }
 
 message CreateTaskRequest {
@@ -42,7 +42,10 @@ message TaskResponse {
     string id = 1;
     string user_id = 2;
     string name = 3;
-    demo_project.ProjectResponse project = 4;
-    demo_project.TagResponse tag = 5;
-    demo_user.VerifyResponse assigned_user = 6;
+    string project_id = 4;
+    string tag_id = 5;
+    string assigned_user_id = 6;
+    demo_project.ProjectResponse project = 7;
+    demo_project.TagResponse tag = 8;
+    demo_user.VerifyResponse assigned_user = 9;
 }
