@@ -100,7 +100,7 @@ services:
 
     mongo:
         image: mongo
-        restart: always
+        restart: "no"
         environment:
             MONGO_INITDB_DATABASE: Microservice-demo-user
         ports:
