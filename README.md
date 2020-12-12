@@ -89,9 +89,9 @@ This service is written in Ruby 2.7. So Ruby needs to be installed in the system
 - **PostgreSQL**
 
 After that, run `bundle install` from within `taskService` directory. Make sure PostgreSQL is running and the url is updated in `.env`. The required compiled proto files are already in `proto` directory. However like the the other two
-services, `taskService` is not independent. It depends on `userService` and `projectService`. So these two services need to be running for `taskService` to run. `.env` needs to be updated with proper URL of those two services. Provided other two services are running, `ruby server.rb` to run this service.
+services, `taskService` is not independent. It depends on `userService` and `projectService`. So these two services need to be running for `taskService` to run. `.env` needs to be updated with proper URL of those two services. Provided other two services are running, run `ruby server.rb` to start this service.
 
-For more information about how to use client to interact with the server, look into the documentation in [User Service](https://github.com/Joker666/microservice-demo/tree/main/taskService)
+For more information about how to use client to interact with the server, look into the documentation in [Task Service](https://github.com/Joker666/microservice-demo/tree/main/taskService)
 
 ### Running Golang based API Service
 This service the the gateway to all the other services. To run this service, you need to make sure all other services are running properly. This service is written in Go 1.15, and you need to make sure it is installed in the system with `GOROOT` and `GOPATH` configured. Required tools
