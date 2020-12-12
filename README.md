@@ -70,7 +70,7 @@ Then run the service with `npm run start`
 For more information about how to use client to interact with the server, look into the documentation in [User Service](https://github.com/Joker666/microservice-demo/tree/main/userService)
 
 ### Running Python based Project Service
-This service is written in Python 3.8. So python 3 needs to be installed in the system. We have also used MySQL as data layer. You can either install MySQL locally or use docker to run it. You have to update the `.env` file insider `projectService` with the MongoDB url to be able to connect to the database. We have used `SQLAlchemy` as ORM to access the database.
+This service is written in Python 3.8. So python 3 needs to be installed in the system. We have also used MySQL as data layer. You can either install MySQL locally or use docker to run it. You have to update the `.env` file insider `projectService` with the MySQL url to be able to connect to the database. We have used `SQLAlchemy` as ORM to access the database.
 
 In python world, it is common to use dedicated environment per project to not pollute the global python environment. Here, we are using `pipenv` to manage dependencies and virtual environment. You do not have to use it if you do not want to, we have included `requirements.txt` as well which is generated using `pipenv lock -r > requirements.txt`. Required tools
 - **Python 3.8**
@@ -82,6 +82,16 @@ After that, if you are using `pipenv` run `pipenv install`, from within `project
 If you are not already inside the virtual environment, activate it with `pipenv shell`(only required if you are using `pipenv`). Then run the service with `python service.py` or `python3 service.py`
 
 For more information about how to use client to interact with the server, look into the documentation in [Project Service](https://github.com/Joker666/microservice-demo/tree/main/projectService)
+
+### Running Ruby based Task Service
+This service is written in Ruby 2.7. So Ruby needs to be installed in the system. We have also used PostgreSQL as data layer. You can either install PostgreSQL locally or use docker to run it. You have to update the `.env` file insider `taskService` with the PostgreSQL url to be able to connect to the database. We have used [Rom](https://rom-rb.org/) as ORM to access the database. Required tools
+- **Ruby 2.7**
+- **PostgreSQL**
+
+After that, run `bundle install` from within `taskService` directory. Make sure PostgreSQL is running and the url is updated in `.env`. The required compiled proto files are already in `proto` directory. However like the the other two
+services, `taskService` is not independent. It depends on `userService` and `projectService`. So these two services need to be running for `taskService` to run. `.env` needs to be updated with proper URL of those two services. Provided other two services are running, `ruby server.rb` to run this service.
+
+For more information about how to use client to interact with the server, look into the documentation in [User Service](https://github.com/Joker666/microservice-demo/tree/main/taskService)
 
 ### Running Golang based API Service
 This service the the gateway to all the other services. To run this service, you need to make sure all other services are running properly. This service is written in Go 1.15, and you need to make sure it is installed in the system with `GOROOT` and `GOPATH` configured. Required tools
@@ -100,7 +110,7 @@ You can either run each service separately and then interact with the applicatio
 ```docker-compose.yml up --build```
 and it will spin up all the services. If it fails for some reason due to MySQL/MongoDB creating database for the first time, run again. After a few minutes if you `docker ps`, you should see
 
-![List of services](https://i.imgur.com/qtaHZC9.png)
+![List of services](https://i.imgur.com/WypWbA9.png)
 
 And now you have a set of microservices running that you can access with the proxy server's url `localhost:9090`
 
