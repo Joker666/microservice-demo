@@ -1,10 +1,12 @@
 import logging
 import os
+import time
 from concurrent import futures
 
 import grpc
 from dotenv import load_dotenv
 from sqlalchemy import create_engine
+from sqlalchemy.exc import OperationalError
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
@@ -15,7 +17,22 @@ import proto.project_pb2_grpc as service
 load_dotenv(verbose=True)
 
 engine = create_engine(os.getenv("DB_URI"), echo=False)
-conn = engine.connect()
+i = 0
+
+
+def connect_db():
+    global i
+    if i > 10:
+        quit()
+    try:
+        conn = engine.connect()
+    except OperationalError:
+        time.sleep(1)
+        i = i + 1
+        connect_db()
+
+
+connect_db()
 Session = sessionmaker(bind=engine)
 session = Session()
 Base = declarative_base()
