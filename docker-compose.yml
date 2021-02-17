@@ -44,6 +44,19 @@ services:
             - user
             - project
 
+    reactuserinterface:
+        build:
+            context: ./reactUserInterface
+        image: microservice/demo/reactuserinterface
+        restart: "no"
+        environment:
+            NODE_ENV: development
+        ports:
+            - 3000:3000
+        volumes:
+            - ./reactUserInterface/src:/app/src
+            - /app/node_modules
+
     api:
         build:
             context: ./apiService
@@ -60,6 +73,7 @@ services:
             - user
             - project
             - task
+            - reactuserinterface
 
 
     api-gateway:

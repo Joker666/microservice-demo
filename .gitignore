@@ -13,4 +13,6 @@ taskService/vendor
 apiService/vendor
 apiService/.idea
 
+reactUserInterface/node_modules
+
 protos/vendor
