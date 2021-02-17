@@ -43,6 +43,7 @@ The project is the world's simplest task management software. A user can registe
 | [Project Service](https://github.com/Joker666/microservice-demo/tree/main/projectService) | Python, MySQL   | It handles project and tags creation and update              |
 | [Task Service](https://github.com/Joker666/microservice-demo/tree/main/taskService) | Ruby, PostgreSQL  | It handles task creation, add tags to task and assign task to a user |
 | [API Service](https://github.com/Joker666/microservice-demo/tree/main/apiService) | Go              | It handles routing api calls to all the services and a proxy server to handle HTTP 1.0 requests |
+| [User Interface](https://github.com/Joker666/microservice-demo/tree/main/reactUserInterface) | React/NodeJs              | User Interface to have visual representation of the GRPC calls exposed via Proxy |
 
 We have chosen to use monorepo for all the services since it will ease the process for us.
 
@@ -113,6 +114,7 @@ and it will spin up all the services. If it fails for some reason due to MySQL/M
 ![List of services](https://i.imgur.com/WypWbA9.png)
 
 And now you have a set of microservices running that you can access with the proxy server's url `localhost:9090`
+The url for the user interface for login and register 'localhost:3000'
 
 ## Roadmap
 - Write development docs
